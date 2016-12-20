@@ -9,7 +9,7 @@ namespace iPE.Models
     public partial class Matchs : DbContext
     {
         public Matchs()
-            : base("name=Matchs")
+            : base("name=Match")
         {
         }
 

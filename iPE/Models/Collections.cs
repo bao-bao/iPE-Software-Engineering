@@ -9,7 +9,7 @@ namespace iPE.Models
     public partial class Collections : DbContext
     {
         public Collections()
-            : base("name=Collections")
+            : base("name=Collection")
         {
         }
 
