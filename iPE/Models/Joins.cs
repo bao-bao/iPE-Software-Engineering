@@ -9,7 +9,7 @@ namespace iPE.Models
     public partial class Joins : DbContext
     {
         public Joins()
-            : base("name=Joins")
+            : base("name=Join")
         {
         }
 

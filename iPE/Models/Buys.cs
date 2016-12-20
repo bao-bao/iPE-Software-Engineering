@@ -9,7 +9,7 @@ namespace iPE.Models
     public partial class Buys : DbContext
     {
         public Buys()
-            : base("name=Buys")
+            : base("name=Buy")
         {
         }
 
