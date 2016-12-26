@@ -29,5 +29,7 @@ namespace iPE.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<iPE.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
