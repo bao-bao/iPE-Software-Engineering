@@ -13,6 +13,10 @@ namespace iPE.Models
         {
         }
 
-        public virtual DbSet<TB_Join> TB_Match { get; set; }
+        public virtual DbSet<TB_Join> TB_Join { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+        }
     }
 }

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data.Entity;
-using System.Web;
-
 namespace iPE.Models
 {
+    using System;
+    using System.Data.Entity;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
+
     public partial class Collections : DbContext
     {
         public Collections()
@@ -13,16 +12,12 @@ namespace iPE.Models
         {
         }
 
-        public virtual DbSet<TB_Collection> TB_Match { get; set; }
+        public virtual DbSet<TB_Collection> TB_Collection { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelbuilder)
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelbuilder.Entity<TB_Collection>()
-                .Property(e => e.nba_team)
-                .IsUnicode(false);
-
-            modelbuilder.Entity<TB_Collection>()
-                .Property(e => e.football_team)
+            modelBuilder.Entity<TB_Collection>()
+                .Property(e => e.teamname)
                 .IsUnicode(false);
         }
     }
