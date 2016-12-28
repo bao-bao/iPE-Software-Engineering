@@ -9,7 +9,7 @@ namespace iPE.Models
     public class MatchViewModels
     {
         [Required]
-        public int m_id { get; set; }
+        public int id { get; set; }
 
         [Required]
         [StringLength(50)]

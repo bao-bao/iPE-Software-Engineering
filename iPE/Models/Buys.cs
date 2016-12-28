@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data.Entity;
-using System.Web;
-
 namespace iPE.Models
 {
+    using System;
+    using System.Data.Entity;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
+
     public partial class Buys : DbContext
     {
         public Buys()
@@ -15,11 +14,8 @@ namespace iPE.Models
 
         public virtual DbSet<TB_Buy> TB_Buy { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelbuilder)
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelbuilder.Entity<TB_Buy>()
-                .Property(e => e.price)
-                .HasPrecision(10, 2);
         }
     }
 }

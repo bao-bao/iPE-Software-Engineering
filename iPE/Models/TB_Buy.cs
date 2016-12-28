@@ -19,12 +19,14 @@ namespace iPE.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int t_id { get; set; }
 
-        [Column(TypeName = "timestamp")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        [Column(Order = 2)]
         public DateTime time { get; set; }
 
         public int number { get; set; }
 
         public decimal price { get; set; }
+
+        public int state { get; set; }
     }
 }

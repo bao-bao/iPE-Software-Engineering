@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "CreateMatch")
 </p>
 <table class="table">
     <tr>
@@ -41,8 +41,10 @@
             @Html.DisplayFor(modelItem => item.location)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { m_id = item.m_id }) |
-            <a href="Details?m_id=@item.m_id" class="btn btn-default" style="font-family: 微软雅黑">修改评论</a>
+            @Html.ActionLink("Details", "Details", new { id = item.id }) |
+            <a href="Details?id=@item.id" class="btn btn-default" style="font-family: 微软雅黑">Details</a>
+            <a href="Edit?id=@item.id" class="btn btn-default" style="font-family: 微软雅黑">Edit</a>
+            <a href="Cancel?id=@item.id" class="btn btn-default" style="font-family: 微软雅黑">Cancel</a>
         </td>
     </tr>
 }
