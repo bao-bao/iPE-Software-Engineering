@@ -59,4 +59,17 @@ namespace iPE.Models
 
         public string Code { get; set; }
     }
+
+    public class UserLoginModel
+    {
+        [Required]
+        public int id { get; set; }
+
+        [Required]
+        [StringLength(20)]
+        public string username { get; set; }
+
+        [Required]
+        public int authority { get; set; }
+    }
 }

@@ -17,11 +17,11 @@ namespace iPE.Models
         [Key]
         [Column(Order = 1)]
         [StringLength(45)]
-        public string nba_team { get; set; }
+        public string teamname { get; set; }
 
         [Key]
         [Column(Order = 2)]
-        [StringLength(45)]
-        public string football_team { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int type { get; set; }
     }
 }
