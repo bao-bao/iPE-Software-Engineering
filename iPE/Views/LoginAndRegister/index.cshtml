@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+
+<!-- Head -->
+<head>
+
+    <title>Member Login Form A Flat Responsive Widget Template :: W3layouts</title>
+
+    <!-- Meta-Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- //Meta-Tags -->
+    <!-- Style -->
+    <link rel="stylesheet" href="~/css/style.css" type="text/css" media="all">
+
+    <!-- Fonts -->
+    <link href="//fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <!-- //Fonts -->
+
+</head>
+<!-- //Head -->
+<!-- Body -->
+<body>
+
+    <h1>iPE MEMBER LOGIN FORM</h1>
+
+    <div class="container w3layouts agileits">
+
+        <div class="login w3layouts agileits">
+            <h2>Sign In</h2>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <input type="text" name="Username" id="username" placeholder="Username" required="">
+                <input type="password" name="Password" id="password" placeholder="Password" required="">
+
+            <ul class="tick w3layouts agileits">
+                <li>
+                    <input type="checkbox" id="brand1" value="">
+                    <label for="brand1"><span></span>Remember me</label>
+                </li>
+            </ul>
+            <div class="send-button w3layouts agileits">
+                    <input type="submit" value="Sign In" name="signin">
+                
+            </div>
+            }
+            <div class="social-icons w3layouts agileits">
+                <p>- Or Sign In With -</p>
+                <ul>
+                    <!--<li><a href="#"><span class="icons w3layouts agileits"></span><span class="text w3layouts agileits">Facebook</span></a></li>-->
+                    <!--<li class="twt w3ls"><a href="#"><span class="icons w3layouts"></span><span class="text w3layouts agileits">Twitter</span></a></li>-->
+                    <li class="ggp aits"><a href="#"><span class="icons agileits"></span><span class="text w3layouts agileits">WeChat</span></a></li>
+                    <div class="clear"> </div>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="register w3layouts agileits">
+            <h2>Sign Up</h2>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <input type="text" Name="signupUsername" placeholder="Name" required="">
+                <input type="text" Name="Email" placeholder="Email" required="">
+                <input type="password" Name="signupPassword" placeholder="Password" required="">
+                <input type="text" Name="phone" placeholder="Phone Number" required="">
+            <div class="send-button w3layouts agileits">
+                    <input type="submit" value="Sign Up" name="signup">
+            </div>
+            }
+            <div class="clear"></div>
+        </div>
+
+        <div class="clear"></div>
+
+    </div>
+
+    <div class="footer w3layouts agileits">
+        <p>&copy; 2016 iPE. All rights reserved | Design by Wu Shuhan</p>
+    </div>
+
+
+
+</body>
+<!-- //Body -->
+
+</html>

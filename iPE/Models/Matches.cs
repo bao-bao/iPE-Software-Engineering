@@ -32,5 +32,7 @@ namespace iPE.Models
                 .Property(e => e.description)
                 .IsUnicode(false);
         }
+
+        public System.Data.Entity.DbSet<iPE.Models.HomeModel> HomeModels { get; set; }
     }
 }

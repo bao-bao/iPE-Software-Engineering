@@ -178,23 +178,26 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MatchController.cs" />
+    <Compile Include="Controllers\LoginAndRegisterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Buys.cs" />
     <Compile Include="Models\Collections.cs" />
+    <Compile Include="Models\HomeModel.cs" />
+    <Compile Include="Models\TB_Collection.cs" />
+    <Compile Include="Models\TB_Buy.cs" />
+    <Compile Include="Models\Buys.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Joins.cs" />
-    <Compile Include="Models\MatchViewModels.cs" />
     <Compile Include="Models\TB_Match.cs" />
     <Compile Include="Models\Matches.cs" />
-    <Compile Include="Models\TB_Buy.cs" />
-    <Compile Include="Models\TB_Collection.cs" />
+    <Compile Include="Models\MatchViewModels.cs" />
     <Compile Include="Models\TB_Join.cs" />
-    <Compile Include="Models\TB_Ticket.cs" />
     <Compile Include="Models\TB_User.cs" />
+    <Compile Include="Models\TB_Ticket.cs" />
     <Compile Include="Models\Tickets.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -203,10 +206,16 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="css\login.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\a44.png" />
+    <Content Include="images\background.jpg" />
+    <Content Include="images\i1.png" />
+    <Content Include="images\j1.jpg" />
+    <Content Include="images\tick.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -221,6 +230,8 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <None Include="Views\LoginAndRegister\index.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -232,23 +243,21 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\ApplicationUsers\Create.cshtml" />
-    <Content Include="Views\ApplicationUsers\Delete.cshtml" />
-    <Content Include="Views\ApplicationUsers\Details.cshtml" />
-    <Content Include="Views\ApplicationUsers\Edit.cshtml" />
-    <Content Include="Views\ApplicationUsers\Index.cshtml" />
     <Content Include="Views\Match\CreateMatch.cshtml" />
-    <Content Include="Views\Match\Delete.cshtml" />
+    <Content Include="Views\Match\Cancel.cshtml" />
     <Content Include="Views\Match\Details.cshtml" />
     <Content Include="Views\Match\Edit.cshtml" />
     <Content Include="Views\Match\Matches.cshtml" />
+    <Content Include="Views\Match\Fail.cshtml" />
+    <Content Include="Views\UserLoginModels\Create.cshtml" />
+    <Content Include="Views\UserLoginModels\Delete.cshtml" />
+    <Content Include="Views\UserLoginModels\Details.cshtml" />
+    <Content Include="Views\UserLoginModels\Edit.cshtml" />
+    <Content Include="Views\UserLoginModels\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
