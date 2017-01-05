@@ -41,4 +41,39 @@ namespace iPE.Models {
         public string description { get; set; }
     }
 
+    public class TicketEditModel {
+        [Key]
+        [Required]
+        public int id { get; set; }
+
+        public int u_id { get; set; }
+
+        [Display(Name = "比赛名称")]
+        public string name { get; set; }
+
+        [Display(Name = "总票数")]
+        public int? max { get; set; }
+
+        [Display(Name = "比赛描述")]
+        public string description { get; set; }
+    }
+
+    public class TicketDeleteModel {
+        [Key]
+        [Required]
+        public int id { get; set; }
+
+        [Display(Name = "比赛名称")]
+        public string name { get; set; }
+
+        [Display(Name = "已卖出票数")]
+        public int sell { get; set; }
+
+        [Display(Name = "总票数")]
+        public int max { get; set; }
+
+        [Display(Name = "比赛描述")]
+        public string description { get; set; }
+    }
+
 }

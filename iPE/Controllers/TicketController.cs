@@ -47,6 +47,10 @@ namespace iPE.Controllers {
 
         // GET: Ticket/Create
         public ActionResult Create() {
+            UserLoginModel userLoginModel = Session["UserMessage"] as UserLoginModel;
+            if (userLoginModel == null) {
+                return RedirectToAction("Index", "LoginAndRegister");
+            }
             return View();
         }
 
@@ -56,11 +60,16 @@ namespace iPE.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "name,price,max,description")] TicketCreateModel ticketCreateModel) {
+            UserLoginModel userLoginModel = Session["UserMessage"] as UserLoginModel;
+            if (userLoginModel == null) {
+                return RedirectToAction("Index", "LoginAndRegister");
+            }
             var new_TB_Ticket = new TB_Ticket();
             if (ModelState.IsValid) {
-                new_TB_Ticket.u_id = 1;
+                new_TB_Ticket.u_id = userLoginModel.id;
+                //new_TB_Ticket.u_id = 5;
                 new_TB_Ticket.m_id = 0;
-                new_TB_Ticket.t_id = 11;
+                //new_TB_Ticket.t_id = 11;
                 new_TB_Ticket.name = ticketCreateModel.name;
                 if (ticketCreateModel.price == 0) {
                     new_TB_Ticket.type = 0;
@@ -72,14 +81,8 @@ namespace iPE.Controllers {
                 new_TB_Ticket.price = ticketCreateModel.price;
                 new_TB_Ticket.description = ticketCreateModel.description;
                 new_TB_Ticket.sell = 0;
-                //new_TB_Ticket.u_id
                 dbTicket.TB_Tickets.Add(new_TB_Ticket);
-                try {
-                    dbTicket.SaveChanges();
-                }
-                catch (Exception ex) {
-                    return Content("<script>alert('创建失败 :" + ex.Message + "');</script>");
-                }
+                dbTicket.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -91,18 +94,16 @@ namespace iPE.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TB_Ticket new_TB_Ticket = dbTicket.TB_Tickets.Find(id);
-            if (new_TB_Ticket == null) {
+            TB_Ticket tB_Ticket = dbTicket.TB_Tickets.Find(id);
+            if (tB_Ticket == null) {
                 return HttpNotFound();
             }
-            var ticketInfo = new TicketInfo();
-            ticketInfo.id = new_TB_Ticket.t_id;
-            ticketInfo.name = new_TB_Ticket.name;
-            ticketInfo.type = new_TB_Ticket.type;
-            ticketInfo.surplus = new_TB_Ticket.max - new_TB_Ticket.sell;
-            ticketInfo.price = new_TB_Ticket.price;
-            ticketInfo.description = new_TB_Ticket.description;
-            return View(ticketInfo);
+            var ticketEditModel = new TicketEditModel();
+            ticketEditModel.id = tB_Ticket.t_id;
+            ticketEditModel.name = tB_Ticket.name;
+            ticketEditModel.max = tB_Ticket.max;
+            ticketEditModel.description = tB_Ticket.description;
+            return View(ticketEditModel);
         }
 
         // POST: Ticket/Edit/5
@@ -110,17 +111,48 @@ namespace iPE.Controllers {
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "t_id,name,type,price,number,describe")] TB_Ticket ticket) {
+        public ActionResult Edit([Bind(Include = "id,name,max,description")] TicketEditModel ticketEditModel) {
             if (ModelState.IsValid) {
-                dbTicket.Entry(ticket).State = EntityState.Modified;
+                UserLoginModel userLoginModel = Session["UserMessage"] as UserLoginModel;
+                if (userLoginModel == null) {
+                    return RedirectToAction("Index", "LoginAndRegister");
+                }
+                if (userLoginModel.id != ticketEditModel.u_id) {
+                    return Content("<script>alert('不好意思，您没有权限');</script>");
+                }
+                TB_Ticket tB_Ticket = dbTicket.TB_Tickets.Find(ticketEditModel.id);
+                if (tB_Ticket == null) {
+                    return HttpNotFound();
+                }
+                if(ticketEditModel.name != null) {
+                    tB_Ticket.name = ticketEditModel.name;
+                }
+                if(ticketEditModel.max != null) {
+                    if(tB_Ticket.sell > ticketEditModel.max) {
+                        return Content(
+                            "<script>alert('售出的票数已大于设定的票数\n\n提示：已卖出 "
+                            + tB_Ticket.sell
+                            + " 张票');</script>");
+                    }
+                    tB_Ticket.max = (int)ticketEditModel.max;
+                }
+                if (ticketEditModel.description != null) {
+                    tB_Ticket.description = ticketEditModel.description;
+                }
+
+                dbTicket.Entry(tB_Ticket).State = EntityState.Modified;
                 dbTicket.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(ticket);
+            return View();
         }
 
         // GET: Ticket/Delete/5
         public ActionResult Delete(int? id) {
+            //UserLoginModel userLoginModel = Session["UserMessage"] as UserLoginModel;
+            //if(userLoginModel == null) {
+            //    return RedirectToAction("Index", "LoginAndRegister");
+            //}
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
