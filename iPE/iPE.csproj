@@ -223,6 +223,8 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <None Include="Views\LoginAndRegister\index.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -234,28 +236,29 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\ApplicationUsers\Create.cshtml" />
-    <Content Include="Views\ApplicationUsers\Delete.cshtml" />
-    <Content Include="Views\ApplicationUsers\Details.cshtml" />
-    <Content Include="Views\ApplicationUsers\Edit.cshtml" />
-    <Content Include="Views\ApplicationUsers\Index.cshtml" />
     <Content Include="Views\Match\CreateMatch.cshtml" />
-    <Content Include="Views\Match\Delete.cshtml" />
+    <Content Include="Views\Match\Cancel.cshtml" />
     <Content Include="Views\Match\Details.cshtml" />
     <Content Include="Views\Match\Edit.cshtml" />
     <Content Include="Views\Match\Matches.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Ticket\Create.cshtml" />
     <Content Include="Views\Ticket\Delete.cshtml" />
     <Content Include="Views\Ticket\Details.cshtml" />
     <Content Include="Views\Ticket\Edit.cshtml" />
     <Content Include="Views\Ticket\Index.cshtml" />
+=======
+    <Content Include="Views\Match\Fail.cshtml" />
+    <Content Include="Views\UserLoginModels\Create.cshtml" />
+    <Content Include="Views\UserLoginModels\Delete.cshtml" />
+    <Content Include="Views\UserLoginModels\Details.cshtml" />
+    <Content Include="Views\UserLoginModels\Edit.cshtml" />
+    <Content Include="Views\UserLoginModels\Index.cshtml" />
+>>>>>>> bac37461cc79d1d40d36a374e7614992b27397be
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
