@@ -12,7 +12,7 @@ namespace iPE.Models
         {
         }
 
-        public virtual DbSet<TB_Ticket> TB_Ticket { get; set; }
+        public virtual DbSet<TB_Ticket> TB_Tickets { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
