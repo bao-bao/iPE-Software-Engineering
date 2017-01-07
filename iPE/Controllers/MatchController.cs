@@ -27,6 +27,14 @@ namespace iPE.Controllers
                 matchView.sponsor = match.sponsor;
                 matchView.time = match.s_time.ToShortDateString() + " —— " + match.e_time.ToShortDateString();
                 matchView.location = match.location;
+                if(match.description == null)
+                {
+                    matchView.description = "there's nothing";
+                }
+                else
+                {
+                    matchView.description = match.description;
+                }
                 matchViewList.Add(matchView);
             }
             return View(matchViewList);
@@ -50,7 +58,7 @@ namespace iPE.Controllers
         // GET: Match/CreateMatch
         public ActionResult CreateMatch()
         {
-            //decimal curUserAuthority = (Session["UserLogin"] as UserLoginModel).authority;
+            //decimal curUserAuthority = (Session["USerMessage"] as UserLoginModel).authority;
             decimal curUserAuthority = 1;
 
             // due to have no authority
@@ -66,11 +74,11 @@ namespace iPE.Controllers
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateMatch([Bind(Include = "m_id,u_id,t_id,name,sponsor,m_num,w_num,s_time,e_time,c_time,location,description")] TB_Match tB_Match)
+        public ActionResult CreateMatch([Bind(Include = "m_id,u_id,t_id,name,sponsor,m_num,w_num,s_time,e_time,c_time,location,description")] TB_Match tB_Mmatch)
         {
-            //decimal curUserId = (Session["UserLogin"] as UserLoginModel).id;
-            decimal curUserId = 1;
-            //decimal curUserAuthority = (Session["UserLogin"] as UserLoginModel).authority;
+            //decimal curUserId = (Session["UserMessage"] as UserLoginModel).id;
+            decimal curUserId = 9;
+            //decimal curUserAuthority = (Session["UserMessage"] as UserLoginModel).authority;
             decimal curUserAuthority = 1;
 
             // due to have no authority
@@ -87,6 +95,26 @@ namespace iPE.Controllers
                 }
             }
 
+            TB_Match tB_Match = new TB_Match();
+
+            tB_Match.u_id = Convert.ToInt32(curUserId);
+            tB_Match.name = Request.Form["Name"];
+            tB_Match.sponsor = Request.Form["Sponsor"];
+            tB_Match.s_time = DateTime.Parse(Request.Form["StartTime"]);
+            tB_Match.e_time = DateTime.Parse(Request.Form["EndTime"]);
+            tB_Match.c_time = DateTime.Parse(Request.Form["EnrollTime"]);
+            tB_Match.m_num = int.Parse(Request.Form["EnrollNumber"]);
+            tB_Match.w_num = int.Parse(Request.Form["VisitNumber"]);
+            tB_Match.location = Request.Form["Location"];
+            if (Request.Form["Description"] == "You can keep it empty")
+            {
+                tB_Match.description = null;
+            }
+            else
+            {
+                tB_Match.description = Request.Form["Description"];
+            }
+            
             if (ModelState.IsValid)
             {
                 dbMat.TB_Match.Add(tB_Match);
@@ -117,13 +145,29 @@ namespace iPE.Controllers
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "m_id,u_id,t_id,name,sponsor,m_num,w_num,s_time,e_time,c_time,location,description")] TB_Match tB_Match)
+        public ActionResult Edit()
         {
-            if (ModelState.IsValid)
+            TB_Match tB_Match = new TB_Match();
+
+            tB_Match.name = Request.Form["Name"];
+            tB_Match.sponsor = Request.Form["Sponsor"];
+            tB_Match.s_time = DateTime.Parse(Request.Form["StartTime"]);
+            tB_Match.e_time = DateTime.Parse(Request.Form["EndTime"]);
+            tB_Match.c_time = DateTime.Parse(Request.Form["EnrollTime"]);
+            tB_Match.m_num = int.Parse(Request.Form["EnrollNumber"]);
+            tB_Match.w_num = int.Parse(Request.Form["VisitNumber"]);
+            tB_Match.location = Request.Form["Location"];
+            tB_Match.description = Request.Form["Description"];
+
+            if (string.IsNullOrEmpty(Request.Form["Submit"]) == false)
             {
-                dbMat.Entry(tB_Match).State = EntityState.Modified;
-                dbMat.SaveChanges();
-                return RedirectToAction("Matches");
+                if (ModelState.IsValid)
+                {
+                    dbMat.Entry(tB_Match).State = EntityState.Modified;
+                    dbMat.SaveChanges();
+                    return RedirectToAction("Matches");
+                }
+                return View(tB_Match);
             }
             return View(tB_Match);
         }
