@@ -21,6 +21,9 @@ namespace iPE.Controllers {
             List<TB_Ticket> list_TB_Ticket = new List<TB_Ticket>();
             list_TB_Ticket = dbTicket.Database.SqlQuery<TB_Ticket>(sql).ToList();
             foreach (var a_TB_Ticket in list_TB_Ticket) {
+                if(a_TB_Ticket.time < DateTime.Now) {
+                    continue;
+                }
                 var a_TicketInfo = new TicketInfo();
                 a_TicketInfo.id = a_TB_Ticket.t_id;
                 a_TicketInfo.name = a_TB_Ticket.name;
@@ -28,6 +31,7 @@ namespace iPE.Controllers {
                 a_TicketInfo.surplus = a_TB_Ticket.max - a_TB_Ticket.sell;
                 a_TicketInfo.price = a_TB_Ticket.price;
                 a_TicketInfo.description = a_TB_Ticket.description;
+                a_TicketInfo.time = a_TB_Ticket.time;
                 list.Add(a_TicketInfo);
             }
             return View(list.AsEnumerable());
@@ -47,10 +51,11 @@ namespace iPE.Controllers {
 
         // GET: Ticket/Create
         public ActionResult Create() {
-            UserLoginModel userLoginModel = Session["UserMessage"] as UserLoginModel;
-            if (userLoginModel == null) {
-                return RedirectToAction("Index", "LoginAndRegister");
-            }
+            //UserLoginModel userLoginModel = Session["UserMessage"] as UserLoginModel;
+            //if (userLoginModel == null) {
+            //    return RedirectToAction("Index", "LoginAndRegister");
+            //}
+            //Console.WriteLine("\n123\n");
             return View();
         }
 
@@ -58,16 +63,16 @@ namespace iPE.Controllers {
         // 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "name,price,max,description")] TicketCreateModel ticketCreateModel) {
-            UserLoginModel userLoginModel = Session["UserMessage"] as UserLoginModel;
-            if (userLoginModel == null) {
-                return RedirectToAction("Index", "LoginAndRegister");
-            }
+        public ActionResult Create([Bind(Include = "name,price,max,description,time")] TicketCreateModel ticketCreateModel) {
+            //UserLoginModel userLoginModel = Session["UserMessage"] as UserLoginModel;
+            //if (userLoginModel == null) {
+            //    return RedirectToAction("Index", "LoginAndRegister");
+            //}
+            //Console.Write("123");
             var new_TB_Ticket = new TB_Ticket();
             if (ModelState.IsValid) {
-                new_TB_Ticket.u_id = userLoginModel.id;
-                //new_TB_Ticket.u_id = 5;
+                //new_TB_Ticket.u_id = userLoginModel.id;
+                new_TB_Ticket.u_id = 5;
                 new_TB_Ticket.m_id = 0;
                 //new_TB_Ticket.t_id = 11;
                 new_TB_Ticket.name = ticketCreateModel.name;
@@ -80,13 +85,14 @@ namespace iPE.Controllers {
                 new_TB_Ticket.max = ticketCreateModel.max;
                 new_TB_Ticket.price = ticketCreateModel.price;
                 new_TB_Ticket.description = ticketCreateModel.description;
+                new_TB_Ticket.time = ticketCreateModel.time;
                 new_TB_Ticket.sell = 0;
                 dbTicket.TB_Tickets.Add(new_TB_Ticket);
                 dbTicket.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            return View(ticketCreateModel);
+            return Content("<script>alert('创建失败');</script>");
+            //return View(ticketCreateModel);
         }
 
         // GET: Ticket/Edit/5
@@ -103,6 +109,7 @@ namespace iPE.Controllers {
             ticketEditModel.name = tB_Ticket.name;
             ticketEditModel.max = tB_Ticket.max;
             ticketEditModel.description = tB_Ticket.description;
+            ticketEditModel.time = tB_Ticket.time;
             return View(ticketEditModel);
         }
 
@@ -110,16 +117,15 @@ namespace iPE.Controllers {
         // 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,name,max,description")] TicketEditModel ticketEditModel) {
+        public ActionResult Edit([Bind(Include = "id,name,max,description,time")] TicketEditModel ticketEditModel) {
             if (ModelState.IsValid) {
-                UserLoginModel userLoginModel = Session["UserMessage"] as UserLoginModel;
-                if (userLoginModel == null) {
-                    return RedirectToAction("Index", "LoginAndRegister");
-                }
-                if (userLoginModel.id != ticketEditModel.u_id) {
-                    return Content("<script>alert('不好意思，您没有权限');</script>");
-                }
+                //UserLoginModel userLoginModel = Session["UserMessage"] as UserLoginModel;
+                //if (userLoginModel == null) {
+                //    return RedirectToAction("Index", "LoginAndRegister");
+                //}
+                //if (userLoginModel.id != ticketEditModel.u_id) {
+                //    return Content("<script>alert('不好意思，您没有权限');</script>");
+                //}
                 TB_Ticket tB_Ticket = dbTicket.TB_Tickets.Find(ticketEditModel.id);
                 if (tB_Ticket == null) {
                     return HttpNotFound();
@@ -138,6 +144,9 @@ namespace iPE.Controllers {
                 }
                 if (ticketEditModel.description != null) {
                     tB_Ticket.description = ticketEditModel.description;
+                }
+                if(ticketEditModel.time != null) {
+                    tB_Ticket.time = ticketEditModel.time;
                 }
 
                 dbTicket.Entry(tB_Ticket).State = EntityState.Modified;

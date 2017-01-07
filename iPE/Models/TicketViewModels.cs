@@ -10,7 +10,7 @@ namespace iPE.Models {
         [Required]
         public int id { get; set; }
         [Required]
-        [Display(Name ="比赛名称")]
+        [Display(Name ="名称")]
         public string name { get; set; }
         [Required]
         [Display(Name = "比赛类型")]
@@ -24,6 +24,9 @@ namespace iPE.Models {
 
         [Display(Name = "比赛描述")]
         public string description { get; set; }
+
+        [Display(Name = "截止时间")]
+        public DateTime time { get; set; }
     }
 
     public class TicketCreateModel {
@@ -39,6 +42,9 @@ namespace iPE.Models {
         [Required]
         [Display(Name = "比赛描述")]
         public string description { get; set; }
+        [Required]
+        [Display(Name = "截止时间")]
+        public DateTime time { get; set; }
     }
 
     public class TicketEditModel {
@@ -56,6 +62,9 @@ namespace iPE.Models {
 
         [Display(Name = "比赛描述")]
         public string description { get; set; }
+
+        [Display(Name = "截止时间")]
+        public DateTime time { get; set; }
     }
 
     public class TicketDeleteModel {
@@ -74,6 +83,9 @@ namespace iPE.Models {
 
         [Display(Name = "比赛描述")]
         public string description { get; set; }
+
+        [Display(Name = "截止时间")]
+        public DateTime time { get; set; }
     }
 
 }
