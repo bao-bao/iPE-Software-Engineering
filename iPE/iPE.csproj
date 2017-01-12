@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JsonObject, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Content\JsonObject.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -190,6 +194,7 @@
     <Compile Include="Models\Collections.cs" />
     <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Models\HomePageViewModel.cs" />
+    <Compile Include="Models\HomeViewModels.cs" />
     <Compile Include="Models\TB_Collection.cs" />
     <Compile Include="Models\TB_Buy.cs" />
     <Compile Include="Models\Buys.cs" />
@@ -210,6 +215,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\JsonObject.dll" />
     <Content Include="css\app.v2.css" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\chocolat.css" />
@@ -292,6 +298,7 @@
     <Content Include="Scripts\_references.js" />
     <None Include="Views\HomePage\homepage.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\HomePage\personalInfo.cshtml" />
     <None Include="Views\LoginAndRegister\Index.cshtml" />
     <Content Include="Views\Match\Edit.cshtml" />
     <None Include="Views\Match\Matches.cshtml" />
@@ -318,9 +325,9 @@
     <Content Include="Views\UserLoginModels\Edit.cshtml" />
     <Content Include="Views\UserLoginModels\Index.cshtml" />
     <Content Include="Views\Ticket\Create.cshtml" />
-    <Content Include="Views\Ticket\Detail.cshtml" />
     <Content Include="Views\Ticket\Edit.cshtml" />
     <Content Include="Views\Ticket\Index.cshtml" />
+    <Content Include="Views\Ticket\Buy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

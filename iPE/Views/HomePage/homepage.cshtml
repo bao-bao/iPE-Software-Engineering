@@ -56,7 +56,7 @@
                                 <span class="icon-bar"></span>
                             </button>
                             <div class="navbar-brand logo">
-                                <h1><a href="index.html">iPE</a></h1>
+                                <h1><a href="/Home/Index">iPE</a></h1>
                             </div>
                         </div>
                         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -66,7 +66,6 @@
                                 <li><a href="/Ticket/Index" data-hover="Tickets" class="scroll">Tickets</a></li>
                                 <li><a href="/Match/Matches" data-hover="MatchEnroll" class="scroll">MatchEnroll</a></li>
                                 <li><a data-hover="Myhome" href="/Homepage/homepage" class="scroll">Myhome</a></li>
-
                             </ul>
                         </div><!-- /.navbar-collapse -->
                     </div><!-- /.container-fluid -->
@@ -91,8 +90,8 @@
                             </div>
                             <div class="about-right">
                                 <h4>Personal Information</h4>
-                                <p>id:   nickname:    type: </p>
-                                <a href="/index.html">change</a>
+                                <p>I'm best!</p>
+                                <a href="/Home/presonalInfo?id=@ViewData["uid"]">change</a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -103,7 +102,7 @@
                             <div class="about-right">
                                 <h4>My Favorites</h4>
                                 <p>The team and league you collected.</p>
-                                <a href="/index.html">check</a>
+                                <a href="#favorite">check</a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -114,7 +113,7 @@
                             <div class="about-right">
                                 <h4>Game Enroll</h4>
                                 <p>The game you are going to take part in</p>
-                                <a href="/index.html">check</a>
+                                <a href="#news">check</a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -125,7 +124,7 @@
                             <div class="about-right">
                                 <h4>Tickets</h4>
                                 <p>The valid tickets you bought on our station</p>
-                                <a href="/index.html">check</a>
+                                <a href="#services">check</a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -147,7 +146,7 @@
         </div>
         <!--personal information--->
         <!--favorites--->
-        <div class="promotions">
+        <div class="promotions" id="favorite">
             <div class="container">
                 <h2 class="tittle">My Favorites</h2>
                 @{  
@@ -196,7 +195,7 @@
                                         </div>
                                         <p>@match.location</p>
                                         <div class="more m2">
-                                            <a href="#" class="btn effect6" data-toggle="modal" data-target="#myModal1">Learn More</a>
+                                            <a href="/Match/Detail?id=@match.id" class="btn effect6">Learn More</a>
                                         </div>
                                     </div>
                                 </div>
@@ -231,7 +230,7 @@
                                         <h5>@ticket.name</h5>
                                         <p>@ticket.time</p>
                                         <div class="more m2">
-                                            <a href="#" class="btn effect6" data-toggle="modal" data-target="#myModal1">Learn More</a>
+                                            <a href="/Ticket/Buy?id=@ticket.t_id" class="btn effect6">Learn More</a>
                                         </div>
                                     </div>
                                 </div>

@@ -73,7 +73,7 @@ namespace iPE.Controllers
                     }
                     catch(Exception e)
                     {
-                        return View();
+                        return Content("<script language='javascript'>alert('This user have been registed!');</script>");
                     }
                 }
                 else

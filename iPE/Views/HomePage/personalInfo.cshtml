@@ -1,9 +1,11 @@
-﻿@model iPE.Models.TB_Match
-
+﻿@model iPE.Models.TB_User
 <!DOCTYPE html>
 <html>
 <head>
     <title>Trip Guide a Travel Agency Category Flat Bootstrap Responsive website Template | Home :: w3layouts</title>
+    <script src="~/Scripts/app.v2.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <link rel="stylesheet" href="~/css/app.v2.css" />
     <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="~/Scripts/jquery.min.js"></script>
@@ -26,23 +28,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!---->
     <link href='//fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Open+Sans:400,800italic,800,700italic,700,600italic,600,400italic,300italic,300' rel='stylesheet' type='text/css'>
-    <script src="~/Scripts/jquery.chocolat.js"></script>
+    <script src="js/jquery.chocolat.js"></script>
     <!--lightboxfiles-->
     <script type="text/javascript">
-		$(function() {
-			$('.gallery a').Chocolat();
-		});
+        $(function () {
+            $('.gallery a').Chocolat();
+        });
     </script>
     <!--script-->
     <!--startsmothscrolling-->
     <script type="text/javascript" src="~/Scripts/move-top.js"></script>
     <script type="text/javascript" src="~/Scripts/easing.js"></script>
     <script type="text/javascript">
-		jQuery(document).ready(function($) {
-			$(".scroll").click(function(event){
-				$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
-			});
-		});
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1200);
+            });
+        });
     </script>
 
     <script src="~/Scripts/modernizr.custom.97074.js"></script>
@@ -84,78 +87,105 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="content">
         <div class="promotions">
             <div class="container">
-                <h2 class="tittle">Matches Information</h2>
-                <span>You can provide matches for users to take part in</span>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
-                    <div class="form-group form-group-1 ">
-                        <label class="col-sm-2 col-sm-offset-2 control-label">Name</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="Name" value="@Model.name">
-                        </div>
-                    </div>
+                <h2 class="tittle">Personal Information</h2>
+                <span>You can change your personal information</span>
 
-                    <div class="form-group">
-                        <label class="col-sm-2 col-sm-offset-2 control-label">Sponsor</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="Sponsor" value="@Model.sponsor">
-                        </div>
-                    </div>
+                <div class="form-horizontal" method="post">
 
-                    <div class="form-group">
-                        <label class="col-sm-2 col-sm-offset-2 control-label">Game Time</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="StartTime" value="@Model.s_time">
+                    @using (Html.BeginForm())
+                    {
+                        <div class="form-group form-group-1 ">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">UserName</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="Username" value="@Model.username">
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-2 col-sm-offset-2 control-label">End Time</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="EndTime" value="@Model.e_time">
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">Password</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="Pwd">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-2 col-sm-offset-2 control-label">Enroll End</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="EnrollEnd" value="@Model.c_time">
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">Name</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="Name" value="@Model.name">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-2 col-sm-offset-2 control-label">Location</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="Location" value="@Model.location">
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">Gender</label>
+                            <div class="col-sm-5">
+                                @{
+                                    string gender = "";
+                                    if (Model.gender == 1)
+                                    {
+                                        gender = "male";
+                                    }
+                                    if (Model.gender == 2)
+                                    {
+                                        gender = "female";
+                                    }
+                                    <input type="text" class="form-control" name="Gender" value="@gender">
+                                }
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-2 col-sm-offset-2 control-label">EnrollNumber</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="EnrollNumber" value="@Model.m_num">
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">ID Number</label>
+                            <div class="col-sm-5">
+                                <input type="number" class="form-control" name="Cardid" value="@Model.card_id">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-2 col-sm-offset-2 control-label">VisitNumber</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="VisitNumber" value="@Model.w_num">
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">Phone Number</label>
+                            <div class="col-sm-5">
+                                <input type="number" class="form-control" name="Phone" value="@Model.phone">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-2 col-sm-offset-2 control-label">Description</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="Description" value="@Model.description">
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">Birthday</label>
+                            <div class="col-sm-5">
+                                @{
+                                    string time = "";
+                                    if (Model.birthday != null)
+                                    {
+                                        time = Model.birthday.Value.ToShortDateString();
+                                    }
+                                    <input type="text" class="datepicker-input form-control" name="Birthday" value="@time" />
+                                }
+                            </div>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">Authority</label>
+                            <div class="col-sm-5">
+                                @{
+                                    string a = "Normal User";
+                                    if (Model.authority == 1)
+                                    {
+                                        a = "Match Manager";
+                                    }
+                                    <input disabled="disabled" type="text" class="form-control" value="@a" />
+                                }
+                            </div>
+                        </div>
 
-                    <div class="form-group">
-                        <input class="col-sm-2 col-sm-offset-5 btn-danger" type="submit" value="Submit" name="Submit">
-                    </div>
-                }
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">Organization</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="Organization" value="@Model.organization" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input class="col-sm-2 col-sm-offset-5 btn-danger" type="submit" value="Submit" />
+                        </div>
+                                    }
+
+                </div>
             </div>
         </div>
     </div>
@@ -170,19 +200,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </div>
 
     <script type="text/javascript">
-						$(document).ready(function() {
-							/*
-							var defaults = {
-					  			containerID: 'home', // fading element id
-								containerHoverID: 'toTopHover', // fading element hover id
-								scrollSpeed: 1200,
-								easingType: 'linear'
-					 		};
-							*/
+        $(document).ready(function () {
+            /*
+            var defaults = {
+                containerID: 'home', // fading element id
+                containerHoverID: 'toTopHover', // fading element hover id
+                scrollSpeed: 1200,
+                easingType: 'linear'
+            };
+            */
 
-							$().UItoTop({ easingType: 'easeOutQuart' });
+            $().UItoTop({ easingType: 'easeOutQuart' });
 
-						});
+        });
     </script>
     <a href="#" id="home" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
     <div class="modal fade" id="myModal1" tabindex="-1" role="dialog">

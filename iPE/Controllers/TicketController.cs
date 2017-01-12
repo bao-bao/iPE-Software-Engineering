@@ -19,43 +19,51 @@ namespace iPE.Controllers {
             string sql = "select * "
                         + "from ticket";
             List<TB_Ticket> list_TB_Ticket = new List<TB_Ticket>();
-            list_TB_Ticket = dbTicket.Database.SqlQuery<TB_Ticket>(sql).ToList();
-            foreach (var a_TB_Ticket in list_TB_Ticket) {
-                if(a_TB_Ticket.time < DateTime.Now) {
-                    continue;
+            if(ModelState.IsValid)
+            {
+                list_TB_Ticket = dbTicket.Database.SqlQuery<TB_Ticket>(sql).ToList();
+                foreach (var a_TB_Ticket in list_TB_Ticket)
+                {
+                    if (a_TB_Ticket.time < DateTime.Now)
+                    {
+                        continue;
+                    }
+                    var a_TicketInfo = new TicketInfo();
+                    a_TicketInfo.id = a_TB_Ticket.t_id;
+                    a_TicketInfo.name = a_TB_Ticket.name;
+                    a_TicketInfo.type = a_TB_Ticket.type;
+                    a_TicketInfo.surplus = a_TB_Ticket.max - a_TB_Ticket.sell;
+                    a_TicketInfo.price = a_TB_Ticket.price;
+                    a_TicketInfo.description = a_TB_Ticket.description;
+                    a_TicketInfo.time = a_TB_Ticket.time;
+                    list.Add(a_TicketInfo);
                 }
-                var a_TicketInfo = new TicketInfo();
-                a_TicketInfo.id = a_TB_Ticket.t_id;
-                a_TicketInfo.name = a_TB_Ticket.name;
-                a_TicketInfo.type = a_TB_Ticket.type;
-                a_TicketInfo.surplus = a_TB_Ticket.max - a_TB_Ticket.sell;
-                a_TicketInfo.price = a_TB_Ticket.price;
-                a_TicketInfo.description = a_TB_Ticket.description;
-                a_TicketInfo.time = a_TB_Ticket.time;
-                list.Add(a_TicketInfo);
+                return View(list.AsEnumerable());
             }
-            return View(list.AsEnumerable());
+            return View();
         }
 
         // GET: Ticket/Details/5
         public ActionResult Details(int? id) {
+            TB_Ticket ticketInfo;
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TB_Ticket ticketInfo = dbTicket.TB_Tickets.Find(id);
-            if (ticketInfo == null) {
-                return HttpNotFound();
+            if(ModelState.IsValid)
+            {
+                ticketInfo = dbTicket.TB_Tickets.Find(id);
+                if (ticketInfo == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(ticketInfo);
             }
-            return View(ticketInfo);
+            return HttpNotFound();
         }
 
         // GET: Ticket/Create
-        public ActionResult Create() {
-            //UserLoginModel userLoginModel = Session["UserMessage"] as UserLoginModel;
-            //if (userLoginModel == null) {
-            //    return RedirectToAction("Index", "LoginAndRegister");
-            //}
-            //Console.WriteLine("\n123\n");
+        public ActionResult Create(int? id) {
+            ViewData["Matchid"] = id;
             return View();
         }
 
@@ -64,17 +72,15 @@ namespace iPE.Controllers {
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         public ActionResult Create([Bind(Include = "name,price,max,description,time")] TicketCreateModel ticketCreateModel) {
-            //UserLoginModel userLoginModel = Session["UserMessage"] as UserLoginModel;
-            //if (userLoginModel == null) {
-            //    return RedirectToAction("Index", "LoginAndRegister");
-            //}
-            //Console.Write("123");
+            UserLoginModel user = (Session["UserMessage"] as UserLoginModel);
+            if (user == null)
+            {
+                return Content("<script language='javascript'>alert('Please Login First!');top.location='/LoginAndRegister/Index';</script>");
+            }
             var new_TB_Ticket = new TB_Ticket();
             if (ModelState.IsValid) {
-                //new_TB_Ticket.u_id = userLoginModel.id;
-                new_TB_Ticket.u_id = 5;
-                new_TB_Ticket.m_id = 0;
-                //new_TB_Ticket.t_id = 11;
+                new_TB_Ticket.u_id = user.id;
+                new_TB_Ticket.m_id = int.Parse(Request.Form["m_id"]);
                 new_TB_Ticket.name = ticketCreateModel.name;
                 if (ticketCreateModel.price == 0) {
                     new_TB_Ticket.type = 0;
@@ -156,17 +162,58 @@ namespace iPE.Controllers {
             return View();
         }
 
+        public ActionResult Buy(int? id)
+        {
+            TB_Ticket ticket = new TB_Ticket();
+            ticket = dbTicket.TB_Tickets.Find(id);
+            if(ticket != null)
+            {
+                return View(ticket);
+            }
+            return HttpNotFound();
+        }
+
+        [HttpPost, ActionName("Buy")]
+        public ActionResult Buy(int id) {
+            int number = Convert.ToInt32(Request.Form["number"]);
+            TB_Ticket ticket = dbTicket.TB_Tickets.Find(id);
+            UserLoginModel user = (Session["USerMessage"] as UserLoginModel);
+            if (user == null)
+            {
+                return Content("<script language='javascript'>alert('Please Login First!');top.location='/LoginAndRegister/Index';</script>");
+            }
+
+            int userID = user.id;
+            TB_Buy new_TB_Buy = new TB_Buy();
+            new_TB_Buy.t_id = ticket.t_id;
+            new_TB_Buy.u_id = user.id;
+            new_TB_Buy.number = number;
+            new_TB_Buy.time = DateTime.Now;
+            new_TB_Buy.price = ticket.price * number;
+            dbBuys.TB_Buy.Add(new_TB_Buy);
+            dbBuys.SaveChanges();
+
+            return RedirectToAction("homepage", "HomePage");
+        }
+
+        //public ActionResult Error() {
+
+        //}
+
         // GET: Ticket/Delete/5
-        public ActionResult Delete(int? id) {
+        public ActionResult Delete(int? id)
+        {
             //UserLoginModel userLoginModel = Session["UserMessage"] as UserLoginModel;
             //if(userLoginModel == null) {
             //    return RedirectToAction("Index", "LoginAndRegister");
             //}
-            if (id == null) {
+            if (id == null)
+            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             TB_Ticket ticket = dbTicket.TB_Tickets.Find(id);
-            if (ticket == null) {
+            if (ticket == null)
+            {
                 return HttpNotFound();
             }
             return View(ticket);
@@ -175,43 +222,22 @@ namespace iPE.Controllers {
         // POST: Ticket/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id) {
+        public ActionResult DeleteConfirmed(int id)
+        {
             TB_Ticket ticket = dbTicket.TB_Tickets.Find(id);
             dbTicket.TB_Tickets.Remove(ticket);
             dbTicket.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing) {
-            if (disposing) {
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
                 dbTicket.Dispose();
             }
             base.Dispose(disposing);
         }
-        [HttpPost, ActionName("Buy")]
-        public ActionResult Buy(int id) {
-            int number = Convert.ToInt32(Request.Form["number"]);
-            TB_Ticket ticket = dbTicket.TB_Tickets.Find(id);
-            TB_User user = Session["UserLogin"] as TB_User;
-            if (null == user) {
-                return RedirectToAction("Login");
-            }
 
-            decimal userID = user.u_id;
-            TB_Buy new_TB_Buy = new TB_Buy();
-            new_TB_Buy.t_id = ticket.t_id;
-            new_TB_Buy.u_id = user.u_id;
-            new_TB_Buy.number = number;
-            new_TB_Buy.time = DateTime.Now;
-            new_TB_Buy.price = ticket.price * number;
-            dbBuys.TB_Buy.Add(new_TB_Buy);
-            dbBuys.SaveChanges();
-
-            return RedirectToAction("Personal");
-        }
-
-        //public ActionResult Error() {
-
-        //}
     }
 }

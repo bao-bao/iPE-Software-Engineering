@@ -23,8 +23,14 @@ namespace iPE.Controllers
         // GET: HomePage
         public ActionResult Homepage()
         {
-            //int curUserId = (Session["USerMessage"] as UserLoginModel).id;
-            int curUserId = 5;
+            UserLoginModel user = (Session["UserMessage"] as UserLoginModel);
+            if(user == null)
+            {
+                return Content("<script language='javascript'>alert('Please Login First!');top.location='/LoginAndRegister/Index';</script>");
+            }
+            int curUserId = user.id;
+            ViewData["uid"] = curUserId;
+
             viewModel.myself = (from a in dbUse.TB_User where (a.u_id == curUserId) select a).ToList().FirstOrDefault();
 
             viewModel.releasedMatch = (from a in dbMat.TB_Match where (a.u_id == curUserId) select a).ToList().FirstOrDefault();
@@ -63,6 +69,53 @@ namespace iPE.Controllers
             viewModel.collection = (from a in dbCol.TB_Collection where (a.u_id == curUserId) select a).ToList();
             
             return View(viewModel);
+        }
+
+        public ActionResult personalInfo(int? id)
+        {
+            TB_User user = new TB_User();
+            user = dbUse.TB_User.Find(id);
+            if(user != null)
+            {
+                return View(user);
+            }
+            return HttpNotFound();
+        }
+
+        [HttpPost]
+        public ActionResult personalInfo([Bind(Include = "u_id,username,pwd,name,gender,card_id,phone,birthday,authority,organization")] TB_User tB_user)
+        {
+            TB_User user = new TB_User();
+            user.username = Request.Form["Username"];
+            if(Request.Form["Pwd"] != null)
+            {
+                user.pwd = Request.Form["Pwd"];
+            }
+            user.name = Request.Form["Name"];
+            if(Request.Form["Gender"] == "male")
+            {
+                user.gender = 1;
+            }
+            else if(Request.Form["Gender"] == "female")
+            {
+                user.gender = 2;
+            }
+            else
+            {
+                user.gender = 0;
+            }
+            user.card_id = Request.Form["Cardid"];
+            user.phone = Request.Form["Phone"];
+            user.birthday = DateTime.Parse(Request.Form["Birthday"]);
+            user.organization = Request.Form["Organization"];
+
+            if(ModelState.IsValid)
+            {
+                dbUse.Entry(user).State = EntityState.Modified;
+                dbUse.SaveChanges();
+                return RedirectToAction("homepage");
+            }
+            return RedirectToAction("homepage");
         }
 
         protected override void Dispose(bool disposing)

@@ -245,12 +245,12 @@ namespace iPE.Controllers
         public static Data5 ToData5(data4 _data4)
         {
             Data5 data5 = new Data5();
-            data5.time = "时间 :" + _data4.c2 + _data4.c3;
+            data5.time = _data4.c2 + "  " + _data4.c3;
             data5.team1 = _data4.c4T1;
             data5.team2 = _data4.c4T2;
-            data5.state = "比赛性质：" + _data4.c1;
-            data5.score = "比分：" + _data4.c4R;
-            data5.src = "观看地址" + _data4.c53Link;
+            data5.state = _data4.c1;
+            data5.score = _data4.c4R;
+            data5.src = _data4.c53Link;
 
 
             return data5;
@@ -259,11 +259,11 @@ namespace iPE.Controllers
         public static Data5 ToData52(data4 _data4)
         {
             Data5 data5 = new Data5();
-            data5.time = "时间 :" + _data4.m_time;
+            data5.time = _data4.m_time;
             data5.team1 = _data4.player1;
             data5.team2 = _data4.player2;
-            data5.score = "比分：" + _data4.score;
-            data5.src = "观看地址：" + _data4.m_link1url;
+            data5.score = _data4.score;
+            data5.src = _data4.m_link1url;
             return data5;
         }
 
