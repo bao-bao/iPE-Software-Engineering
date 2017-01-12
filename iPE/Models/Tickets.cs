@@ -1,28 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Data.Entity;
+using System.Web;
+
 namespace iPE.Models
 {
-    using System;
-    using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
-
     public partial class Tickets : DbContext
     {
         public Tickets()
-            : base("name=Ticket")
+            : base("name=Tickets")
         {
         }
 
-        public virtual DbSet<TB_Ticket> TB_Tickets { get; set; }
+        public virtual DbSet<TB_Ticket> TB_Match { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(DbModelBuilder modelbuilder)
         {
-            modelBuilder.Entity<TB_Ticket>()
+            modelbuilder.Entity<TB_Ticket>()
                 .Property(e => e.name)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<TB_Ticket>()
-                .Property(e => e.description)
+            modelbuilder.Entity<TB_Ticket>()
+                .Property(e => e.describe)
                 .IsUnicode(false);
+
+            modelbuilder.Entity<TB_Ticket>()
+                .Property(e => e.price)
+                .HasPrecision(10, 2);
         }
     }
 }
