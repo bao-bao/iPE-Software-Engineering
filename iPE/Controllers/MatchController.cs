@@ -58,8 +58,8 @@ namespace iPE.Controllers
         // GET: Match/CreateMatch
         public ActionResult CreateMatch()
         {
-            //decimal curUserAuthority = (Session["USerMessage"] as UserLoginModel).authority;
-            decimal curUserAuthority = 1;
+            //int curUserAuthority = (Session["USerMessage"] as UserLoginModel).authority;
+            int curUserAuthority = 1;
 
             // due to have no authority
             if (curUserAuthority == 0)
@@ -76,10 +76,10 @@ namespace iPE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateMatch([Bind(Include = "m_id,u_id,t_id,name,sponsor,m_num,w_num,s_time,e_time,c_time,location,description")] TB_Match tB_Mmatch)
         {
-            //decimal curUserId = (Session["UserMessage"] as UserLoginModel).id;
-            decimal curUserId = 9;
-            //decimal curUserAuthority = (Session["UserMessage"] as UserLoginModel).authority;
-            decimal curUserAuthority = 1;
+            //int curUserId = (Session["UserMessage"] as UserLoginModel).id;
+            int curUserId = 9;
+            //int curUserAuthority = (Session["UserMessage"] as UserLoginModel).authority;
+            int curUserAuthority = 1;
 
             // due to have no authority
             if (curUserAuthority == 0)
@@ -97,7 +97,7 @@ namespace iPE.Controllers
 
             TB_Match tB_Match = new TB_Match();
 
-            tB_Match.u_id = Convert.ToInt32(curUserId);
+            tB_Match.u_id = curUserId;
             tB_Match.name = Request.Form["Name"];
             tB_Match.sponsor = Request.Form["Sponsor"];
             tB_Match.s_time = DateTime.Parse(Request.Form["StartTime"]);
