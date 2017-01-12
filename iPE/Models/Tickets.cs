@@ -8,7 +8,7 @@ namespace iPE.Models
     public partial class Tickets : DbContext
     {
         public Tickets()
-            : base("name=Tickets")
+            : base("name=Ticket")
         {
         }
 
