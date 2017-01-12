@@ -10,8 +10,11 @@ namespace iPE.Models
     public partial class TB_Ticket
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int t_id { get; set; }
+
+        public int u_id { get; set; }
+
+        public int m_id { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -21,9 +24,13 @@ namespace iPE.Models
 
         public decimal price { get; set; }
 
-        public int number { get; set; }
+        public int max { get; set; }
 
-        [StringLength(200)]
-        public string describe { get; set; }
+        public int sell { get; set; }
+
+        [StringLength(256)]
+        public string description { get; set; }
+
+        public DateTime time { get; set; }
     }
 }

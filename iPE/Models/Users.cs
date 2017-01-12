@@ -9,7 +9,7 @@ namespace iPE.Models
     public partial class Users : DbContext
     {
         public Users()
-            : base("name=Users")
+            : base("name=User")
         {
         }
 
