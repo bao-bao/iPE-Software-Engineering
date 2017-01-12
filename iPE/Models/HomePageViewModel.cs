@@ -8,8 +8,10 @@ namespace iPE.Models
 {
     public class HomePageViewModel
     {
-
         [Key]
+        public int id { get; set; }
+
+        [Required]
         public TB_User myself { get; set; }
 
         public TB_Match releasedMatch { get; set; }
@@ -17,6 +19,8 @@ namespace iPE.Models
         public List<MatchViewModels> enrollMatches { get; set; }
 
         public List<TB_Ticket> boughtTickets { get; set; } 
+
+        public List<TB_Collection> collection { get; set; }
         
     }
 }

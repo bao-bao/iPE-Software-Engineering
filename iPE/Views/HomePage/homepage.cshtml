@@ -18,10 +18,6 @@
     <meta property="og:title" content="Vide" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="Trip Guide Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-    <!---->
     <script src="~/Scripts/bootstrap.min.js"></script>
     <!---->
     <link href='//fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
@@ -35,12 +31,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </script>
     <!--script-->
     <!--startsmothscrolling-->
-    <script type="text/javascript" src="~/Scripts/move-top.js"></script>
-    <script type="text/javascript" src="~/Scripts/easing.js"></script>
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
             $(".scroll").click(function (event) {
-                event.preventDefault();
                 $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1200);
             });
         });
@@ -69,11 +62,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav cl-effect-11">
-                                <li class="active"><a href="#" data-hover="Home" class="scroll">Home </a></li>
-                                <li><a href="#homepage" data-hover="homepage" class="scroll">homepage</a></li>
-                                <li><a href="#Tickets" data-hover="Tickets" class="scroll">Tickets</a></li>
-                                <li><a href="#MatchEnroll" data-hover="MatchEnroll" class="scroll">MatchEnroll</a></li>
-                                <li><a data-hover="Contact" href="#contact" class="scroll">Contact</a></li>
+                                <li class="active"><a href="/Home/Index" data-hover="Home" class="scroll">Home</a></li>
+                                <li><a href="/Ticket/Index" data-hover="Tickets" class="scroll">Tickets</a></li>
+                                <li><a href="/Match/Matches" data-hover="MatchEnroll" class="scroll">MatchEnroll</a></li>
+                                <li><a data-hover="Myhome" href="/Homepage/homepage" class="scroll">Myhome</a></li>
 
                             </ul>
                         </div><!-- /.navbar-collapse -->
@@ -158,17 +150,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="promotions">
             <div class="container">
                 <h2 class="tittle">My Favorites</h2>
-                <span>the team and league you collected</span>
-                <div class="have">
-                    <ul>
-                        <li>team1</li>
-                        <li>team2</li>
-                        <li>match1</li>
-                        <li>match2</li>
+                @{  
+                    if (Model.enrollMatches == null)
+                    {
+                        <div class="news-grids" style="text-align:center">
+                            <h4>you have NOT collected any team!</h4>
+                            <a href="/Home/Index">Find one?</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <ul>
+                            @foreach (var team in Model.collection)
+                            {
+                            <li>@team.teamname</li>
+                            }
+                        </ul>
+                    }
 
-                    </ul>
-                </div>
-                <p class="none">You haven't collected any team or league!</p>
+                }
             </div>
         </div>
         <!--favorites--->
@@ -176,25 +176,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="news" id="news">
             <div class="container">
                 <h3 class="tittle">Game Enroll</h3>
-                <span>The game you are going to take part in</span>
                 <div class="news-grids">
                     @{
-                        foreach (var match in Model.enrollMatches)
+                        if (Model.enrollMatches == null)
                         {
-                            <div class="col-md-4 news-grid">
-                                <img src="images/m2.jpg" class="img-responsive" alt="" />
-                                <div class="news-text">
-                                    <h4>@match.name</h4>
-                                    <div class="new-bottom">
-                                        <h5>@match.time</h5>
-                                    </div>
-                                    <p>@match.location</p>
-                                    <div class="more m2">
-                                        <a href="#" class="btn effect6" data-toggle="modal" data-target="#myModal1">Learn More</a>
+                            <h4>you have NOT took part in any match!</h4>
+                            <a href="/Match/Matches">Find one?</a>
+                        }
+                        else
+                        {
+                            foreach (var match in Model.enrollMatches)
+                            {
+                                <div class="col-md-4 news-grid">
+                                    <img src="images/m2.jpg" class="img-responsive" alt="" />
+                                    <div class="news-text">
+                                        <h4>@match.name</h4>
+                                        <div class="new-bottom">
+                                            <h5>@match.time</h5>
+                                        </div>
+                                        <p>@match.location</p>
+                                        <div class="more m2">
+                                            <a href="#" class="btn effect6" data-toggle="modal" data-target="#myModal1">Learn More</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
                         }
+
                     }
                     <div class="clearfix"></div>
                 </div>
@@ -202,23 +210,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
         <!--game enroll--->
         <!--tickets--->
-        <div class="featured-services" id="services">
+        <div class="news" id="services">
             <div class="container">
                 <h3 class="tittle">Tickets</h3>
-                <div class="featured-grids">
+                <div class="news-grids">
                     @{
-                        foreach (var ticket in Model.boughtTickets)
+
+                        if (Model.boughtTickets == null)
                         {
-                            <div class="col-md-3 featured-grid">
-                                <div class="featured-grd">
-                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                                    <h5>@ticket.name</h5>
-                                    <p>@ticket.time</p>
-                                    <div class="more m2">
-                                        <a href="#" class="btn effect6" data-toggle="modal" data-target="#myModal1">Learn More</a>
+                            <h4>you have NOT bought any ticket!</h4>
+                            <a href="/Ticket/Index">Find one?</a>
+                        }
+                        else
+                        {
+                            foreach (var ticket in Model.boughtTickets)
+                            {
+                                <div class="col-md-3 featured-grid">
+                                    <div class="featured-grd">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                        <h5>@ticket.name</h5>
+                                        <p>@ticket.time</p>
+                                        <div class="more m2">
+                                            <a href="#" class="btn effect6" data-toggle="modal" data-target="#myModal1">Learn More</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
                         }
                     }
                     <div class="clearfix"> </div>

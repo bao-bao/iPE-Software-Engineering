@@ -1,9 +1,5 @@
 ﻿@model IEnumerable<iPE.Models.TicketInfo>
 
-@{
-    ViewBag.Title = "Index";
-}
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,11 +69,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav cl-effect-11">
-                                <li class="active"><a href="#" data-hover="Home" class="scroll">Home </a></li>
-                                <li><a href="#Login" data-hover="Login" class="scroll">Login</a></li>
-                                <li><a href="#Tickets" data-hover="Tickets" class="scroll">Tickets</a></li>
-                                <li><a href="#MatchEnroll" data-hover="MatchEnroll" class="scroll">MatchEnroll</a></li>
-                                <li><a data-hover="Contact" href="#contact" class="scroll">Contact</a></li>
+                                <li class="active"><a href="/Home/Index" data-hover="Home" class="scroll">Home</a></li>
+                                <li><a href="/Ticket/Index" data-hover="Tickets" class="scroll">Tickets</a></li>
+                                <li><a href="/Match/Matches" data-hover="MatchEnroll" class="scroll">MatchEnroll</a></li>
+                                <li><a data-hover="Contact" href="/Homepage/homepage" class="scroll">Myhome</a></li>
+
                             </ul>
                         </div><!-- /.navbar-collapse -->
                     </div><!-- /.container-fluid -->
@@ -97,27 +93,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                                 <h5>@Html.DisplayFor(modelItem => item.name)</h5>
                                 <p>￥@Html.DisplayFor(modelItem => item.price)</p>
-                                <p>@Html.DisplayFor(modelItem => item.surplus)</p>
-                                <p>@Html.DisplayFor(modelItem => item.time)</p>
+                                <p>@Html.DisplayFor(modelItem => item.surplus) left</p>
+                                @{
+                                    String time = item.time.ToShortDateString();
+                                    <p>@time</p>
+                                }
                                 @*<p>sponsor</p>*@
                                 <div class="more m2">
-                                    <a href="#" class="btn effect6" data-toggle="modal" data-target="#@item.id">Learn More</a>
-                                </div>
-                                <div class="modal fade" id="@item.id" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content modal-info">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="news-gr">
-                                                    <img src="~/images/p6.jpg" class="img-responsive" />
-                                                    <h3 class="tittle1">@item.name</h3>
-                                                    <p>@item.description</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <a href="/Ticket/Details?id=@item.id" class="btn effect6">Learn More</a>
                                 </div>
                             </div>
                         </div>

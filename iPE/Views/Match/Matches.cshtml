@@ -40,7 +40,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
             $(".scroll").click(function (event) {
-                event.preventDefault();
                 $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1200);
             });
         });
@@ -69,11 +68,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav cl-effect-11">
-                                <li class="active"><a href="#" data-hover="Home" class="scroll">Home </a></li>
-                                <li><a href="#Login" data-hover="Login" class="scroll">Login</a></li>
-                                <li><a href="#Tickets" data-hover="Tickets" class="scroll">Tickets</a></li>
-                                <li><a href="#MatchEnroll" data-hover="MatchEnroll" class="scroll">MatchEnroll</a></li>
-                                <li><a data-hover="Contact" href="#contact" class="scroll">Contact</a></li>
+                                <li class="active"><a href="/Home/Index" data-hover="Home" class="scroll">Home</a></li>
+                                <li><a href="/Ticket/Index" data-hover="Tickets" class="scroll">Tickets</a></li>
+                                <li><a href="/Match/Matches" data-hover="MatchEnroll" class="scroll">MatchEnroll</a></li>
+                                <li><a data-hover="Myhome" href="/Homepage/homepage" class="scroll">Myhome</a></li>
 
                             </ul>
                         </div><!-- /.navbar-collapse -->
@@ -94,32 +92,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         foreach (var match in Model)
                         {
                             <div class="col-md-4 news-grid">
-                                <img src="images/m2.jpg" class="img-responsive" alt="" />
+                                <img src="~/images/2.jpg" class="img-responsive" alt="" />
                                 <div class="news-text">
                                     <h4>@match.name</h4>
                                     <div class="new-bottom">
-                                        <h5> @match.time<br>@match.sponsor </h5>
+                                        <h5> @match.time<br>@match.sponsor</h5>
                                     </div>
                                     <p>@match.location</p>
                                     <div class="more m2">
-                                        <a href="#" class="btn effect6" data-toggle="modal" data-target="#@match.id">Learn More</a>
-                                        <div class="modal fade" id="@match.id" tabindex="-1" role="dialog">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content modal-info">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="news-gr">
-                                                            <img src="images/p6.jpg" class="img-responsive" />
-                                                            <h3 class="tittle1">More</h3>
-                                                            <p>@match.description</p>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <a href="/Match/Detail?id=@match.id" class="btn effect6">Learn More</a>
                                     </div>
                                 </div>
                             </div>
@@ -132,38 +113,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
     </div>
     <!--matches-->
-    <div class="contact" id="contact">
-        <div class="container">
-            <h3 class="tittle">Contact</h3>
-            <div class="contact-grids">
-                <form action="#" method="post">
-                    <div class="col-md-6 grid-contact">
-                        <div class="your-top">
-                            <i class="glyphicon glyphicon-user"> </i>
-                            <input type="text" name="Name" placeholder="Name" required>
-                            <div class="clearfix"> </div>
-                        </div>
-                        <div class="your-top">
-                            <i class="glyphicon glyphicon-envelope"> </i>
-                            <input type="text" name="E-mail" placeholder="E-mail" required>
-                            <div class="clearfix"> </div>
-                        </div>
-                        <div class="your-top">
-                            <i class="glyphicon glyphicon-link"> </i>
-                            <input type="text" name="Website" placeholder="Website" required>
-                            <div class="clearfix"> </div>
-                        </div>
-
-                    </div>
-                    <div class="col-md-6 grid-contact-in">
-                        <textarea name="Message" placeholder=" Message" required></textarea>
-                        <input type="submit" value="Send">
-                    </div>
-                    <div class="clearfix"> </div>
-                </form>
-            </div>
-        </div>
-    </div>
     <!--footer-->
     <div class="copy-section">
         <div class="container">

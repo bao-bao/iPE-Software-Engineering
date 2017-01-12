@@ -17,6 +17,7 @@ namespace iPE.Controllers
         private Buys dbBuy = new Buys();
         private Tickets dbTic = new Tickets();
         private Joins dbJoi = new Joins();
+        private Collections dbCol = new Collections();
         private HomePageViewModel viewModel = new HomePageViewModel();
 
         // GET: HomePage
@@ -25,12 +26,15 @@ namespace iPE.Controllers
             //int curUserId = (Session["USerMessage"] as UserLoginModel).id;
             int curUserId = 5;
             viewModel.myself = (from a in dbUse.TB_User where (a.u_id == curUserId) select a).ToList().FirstOrDefault();
+
             viewModel.releasedMatch = (from a in dbMat.TB_Match where (a.u_id == curUserId) select a).ToList().FirstOrDefault();
+
             List<TB_Buy> bought = (from a in dbBuy.TB_Buy where (a.u_id == curUserId) select a).ToList();
             foreach(TB_Buy item in bought)
             {
                 viewModel.boughtTickets.Add((from a in dbTic.TB_Tickets where (a.t_id == item.t_id) select a).ToList().FirstOrDefault());
             }
+
             List<TB_Join> joined = (from a in dbJoi.TB_Join where (a.u_id == curUserId) select a).ToList();
             foreach (TB_Join item in joined)
             {
@@ -55,6 +59,9 @@ namespace iPE.Controllers
                     viewModel.enrollMatches.Add(matchView);
                 }
             }
+
+            viewModel.collection = (from a in dbCol.TB_Collection where (a.u_id == curUserId) select a).ToList();
+            
             return View(viewModel);
         }
 

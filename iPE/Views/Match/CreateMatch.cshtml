@@ -5,6 +5,9 @@
 <head>
 <title>Trip Guide a Travel Agency Category Flat Bootstrap Responsive website Template | Home :: w3layouts</title>
 <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <script src="~/Scripts/app.v2.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <link rel="stylesheet" href="~/css/app.v2.css" />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="~/Scripts/jquery.min.js"></script>
 <!-- Custom Theme files -->
@@ -39,8 +42,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script type="text/javascript" src="~/Scripts/easing.js"></script>
  <script type="text/javascript">
 		jQuery(document).ready(function($) {
-			$(".scroll").click(function(event){		
-				event.preventDefault();
+			$(".scroll").click(function(event){	
 				$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
 			});
 		});
@@ -67,16 +69,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>
 						</div>
 						<!-- Collect the nav links, forms, and other content for toggling -->
-						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						  <ul class="nav navbar-nav cl-effect-11">
-							<li class="active"><a href="#" data-hover="Home" class="scroll">Home </a></li>
-							<li><a href="#Login" data-hover="Login" class="scroll">Login</a></li>
-							<li><a href="#Tickets" data-hover="Tickets" class="scroll">Tickets</a></li>
-							<li><a href="#MatchEnroll" data-hover="MatchEnroll" class="scroll">MatchEnroll</a></li>
-							 <li><a data-hover="Contact" href="#contact" class="scroll">Contact</a></li>
-							 
-						  </ul>
-						</div><!-- /.navbar-collapse -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav cl-effect-11">
+                                <li class="active"><a href="/Home/Index" data-hover="Home" class="scroll">Home</a></li>
+                                <li><a href="/Ticket/Index" data-hover="Tickets" class="scroll">Tickets</a></li>
+                                <li><a href="/Match/Matches" data-hover="MatchEnroll" class="scroll">MatchEnroll</a></li>
+                                <li><a data-hover="Contact" href="/Homepage/homepage" class="scroll">Myhome</a></li>
+
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
 					</div><!-- /.container-fluid -->
 				</nav>
 			<div class="clearfix"></div>
@@ -89,77 +90,86 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="container">
 				<h2 class="tittle">Matches Information</h2>
 				<span>You can provide matches for users to take part in</span>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
-					<div class="form-group form-group-1 ">
-                        <label class="col-sm-2 col-sm-offset-2 control-label">Name</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="Name" >
+                <div class="form-horizontal" method="get">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-group form-group-1 ">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">Name</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="Name">
+                            </div>
                         </div>
-                    </div>
 
-					<div class="form-group">
-						<label class="col-sm-2 col-sm-offset-2 control-label">Sponsor</label>
-						<div class="col-sm-5">
-							<input type="text" class="form-control" name="Sponsor">
-						</div>
-					</div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">Sponsor</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="Sponsor">
+                            </div>
+                        </div>
 
-					<div class="form-group">
-						<label class="col-sm-2 col-sm-offset-2 control-label">Game Time</label>
-						<div class="col-sm-5">
-							<input type="text" class="form-control" name="StartTime">
-						</div>
-					</div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">Game Time</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="datepicker-input form-control" name="StartTime">
+                            </div>
+                        </div>
 
-					<div class="form-group">
-						<label class="col-sm-2 col-sm-offset-2 control-label">End Time</label>
-						<div class="col-sm-5">
-							<input type="text" class="form-control" name="EndTime">
-						</div>
-					</div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">End Time</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="datepicker-input form-control" name="EndTime">
+                            </div>
+                        </div>
 
-					<div class="form-group">
-						<label class="col-sm-2 col-sm-offset-2 control-label">Enroll End</label>
-						<div class="col-sm-5">
-							<input type="text" class="form-control" name="EnrollTime">
-						</div>
-					</div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">Enroll End</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="datepicker-input form-control" name="EnrollTime">
+                            </div>
+                        </div>
 
-					<div class="form-group">
-						<label class="col-sm-2 col-sm-offset-2 control-label">Location</label>
-						<div class="col-sm-5">
-							<input type="text" class="form-control" name="Location">
-						</div>
-					</div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">Location</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="Location">
+                            </div>
+                        </div>
 
-					<div class="form-group">
-						<label class="col-sm-2 col-sm-offset-2 control-label">EnrollNumber</label>
-						<div class="col-sm-5">
-							<input type="text" class="form-control" name="EnrollNumber">
-						</div>
-					</div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">EnrollNumber</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="EnrollNumber">
+                            </div>
+                        </div>
 
-					<div class="form-group">
-						<label class="col-sm-2 col-sm-offset-2 control-label">VisitNumber</label>
-						<div class="col-sm-5">
-							<input type="text" class="form-control" name="VisitNumber" value="Please input 0 if you do not want visitors" onfocus="this.value='';" onblur="if(this.value == '') {this.value = 'Please input 0 if you do not want visitors';}">
-						</div>
-					</div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">VisitNumber</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="VisitNumber" value="Please input 0 if you do not want visitors" onfocus="this.value='';" onblur="if(this.value == '') {this.value = 'Please input 0 if you do not want visitors';}">
+                            </div>
+                        </div>
 
-					<div class="form-group">
-						<label class="col-sm-2 col-sm-offset-2 control-label">Description</label>
-						<div class="col-sm-5">
-							<input type="text" class="form-control" name="Description" value="You can keep it empty" onfocus="this.value='';" onblur="if (this.value == '') { this.value = 'You can keep it empty' }";}>
-						</div>
-					</div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">Description</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="Description" value="You can keep it empty" onfocus="this.value='';" onblur="if (this.value == '') { this.value = 'You can keep it empty' }" ;}>
+                            </div>
+                        </div>
 
-					<div class="form-group">
-						<input class="col-sm-2 col-sm-offset-5 btn-danger" type="submit" value="Submit" name="Submit">
-					</div>
-				}
-			</div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-offset-2 control-label">Ticket</label>
+                            <div class="col-sm-5">
+                                <label>
+                                    <input type="radio" value="" name="Ticket" style="margin-top:11px"> Add Tickets for you match? </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input class="col-sm-2 col-sm-offset-5 btn-danger" type="submit" value="Submit" name="Submit">
+                        </div>
+                    }
+                </div>
 		</div>
 	</div>
 

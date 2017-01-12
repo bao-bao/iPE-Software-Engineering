@@ -1290,7 +1290,7 @@
                 }
                 d = 0;
                 while ((u = h[d++]) && !n.isPropagationStopped())
-                    n.type = d > 1 ? c : p.bindType || g, s = (x._data(u, "events") || {})[n.type] && x._data(u, "handle"), s && s.apply(u, r), s = l && u[l], s && x.acceptData(u) && s.apply && s.apply(u, r) === !1 && n.preventDefault();
+                    n.type = d > 1 ? c : p.bindType || g, s = (x._data(u, "events") || {})[n.type] && x._data(u, "handle"), s && s.apply(u, r), s = l && u[l], s && x.acceptData(u) && s.apply && s.apply(u, r) === !1;
                 if (n.type = g, !o && !n.isDefaultPrevented() && (!p._default || p._default.apply(h.pop(), r) === !1) && x.acceptData(i) && l && i[g] && !x.isWindow(i)) {
                     f = i[l], f && (i[l] = null), x.event.triggered = g;
                     try {
@@ -1309,7 +1309,7 @@
                 while ((o = s[n++]) && !e.isPropagationStopped()) {
                     e.currentTarget = o.elem, a = 0;
                     while ((i = o.handlers[a++]) && !e.isImmediatePropagationStopped())
-                        (!e.namespace_re || e.namespace_re.test(i.namespace)) && (e.handleObj = i, e.data = i.data, r = ((x.event.special[i.origType] || {}).handle || i.handler).apply(o.elem, l), r !== t && (e.result = r) === !1 && (e.preventDefault(), e.stopPropagation()))
+                        (!e.namespace_re || e.namespace_re.test(i.namespace)) && (e.handleObj = i, e.data = i.data, r = ((x.event.special[i.origType] || {}).handle || i.handler).apply(o.elem, l), r !== t && (e.result = r) === !1 && (e.stopPropagation()))
                 }
                 return c.postDispatch && c.postDispatch.call(this, e), e.result
             }
@@ -1352,7 +1352,6 @@
                     e.result !== t && (e.originalEvent.returnValue = e.result)
                 }}},simulate: function(e, t, n, r) {
             var i = x.extend(new x.Event, n, {type: e,isSimulated: !0,originalEvent: {}});
-            r ? x.event.trigger(i, null, t) : x.event.dispatch.call(t, i), i.isDefaultPrevented() && n.preventDefault()
         }}, x.removeEvent = a.removeEventListener ? function(e, t, n) {
         e.removeEventListener && e.removeEventListener(t, n, !1)
     } : function(e, t, n) {
@@ -1362,7 +1361,6 @@
         return this instanceof x.Event ? (e && e.type ? (this.originalEvent = e, this.type = e.type, this.isDefaultPrevented = e.defaultPrevented || e.returnValue === !1 || e.getPreventDefault && e.getPreventDefault() ? it : ot) : this.type = e, n && x.extend(this, n), this.timeStamp = e && e.timeStamp || x.now(), this[x.expando] = !0, t) : new x.Event(e, n)
     }, x.Event.prototype = {isDefaultPrevented: ot,isPropagationStopped: ot,isImmediatePropagationStopped: ot,preventDefault: function() {
             var e = this.originalEvent;
-            this.isDefaultPrevented = it, e && (e.preventDefault ? e.preventDefault() : e.returnValue = !1)
         },stopPropagation: function() {
             var e = this.originalEvent;
             this.isPropagationStopped = it, e && (e.stopPropagation && e.stopPropagation(), e.cancelBubble = !0)
@@ -2526,7 +2524,6 @@ if (typeof jQuery === "undefined") {
         }
         var $parent = $(selector)
         if (e)
-            e.preventDefault()
         if (!$parent.length) {
             $parent = $this.hasClass('alert') ? $this : $this.parent()
         }
@@ -2558,64 +2555,6 @@ if (typeof jQuery === "undefined") {
         return this
     }
     $(document).on('click.bs.alert.data-api', dismiss, Alert.prototype.close)
-}(jQuery);
-+function($) {
-    "use strict";
-    var Button = function(element, options) {
-        this.$element = $(element)
-        this.options = $.extend({}, Button.DEFAULTS, options)
-    }
-    Button.DEFAULTS = {loadingText: 'loading...'}
-    Button.prototype.setState = function(state) {
-        var d = 'disabled'
-        var $el = this.$element
-        var val = $el.is('input') ? 'val' : 'html'
-        var data = $el.data()
-        state = state + 'Text'
-        if (!data.resetText)
-            $el.data('resetText', $el[val]())
-        $el[val](data[state] || this.options[state])
-        setTimeout(function() {
-            state == 'loadingText' ? $el.addClass(d).attr(d, d) : $el.removeClass(d).removeAttr(d);
-        }, 0)
-    }
-    Button.prototype.toggle = function() {
-        var $parent = this.$element.closest('[data-toggle="buttons"]')
-        if ($parent.length) {
-            var $input = this.$element.find('input')
-            .prop('checked', !this.$element.hasClass('active'))
-            .trigger('change')
-            if ($input.prop('type') === 'radio')
-                $parent.find('.active').removeClass('active')
-        }
-        this.$element.toggleClass('active')
-    }
-    var old = $.fn.button
-    $.fn.button = function(option) {
-        return this.each(function() {
-            var $this = $(this)
-            var data = $this.data('bs.button')
-            var options = typeof option == 'object' && option
-            if (!data)
-                $this.data('bs.button', (data = new Button(this, options)))
-            if (option == 'toggle')
-                data.toggle()
-            else if (option)
-                data.setState(option)
-        })
-    }
-    $.fn.button.Constructor = Button
-    $.fn.button.noConflict = function() {
-        $.fn.button = old
-        return this
-    }
-    $(document).on('click.bs.button.data-api', '[data-toggle^=button]', function(e) {
-        var $btn = $(e.target)
-        if (!$btn.hasClass('btn'))
-            $btn = $btn.closest('.btn')
-        $btn.button('toggle')
-        e.preventDefault()
-    })
 }(jQuery);
 +function($) {
     "use strict";
@@ -2759,132 +2698,12 @@ if (typeof jQuery === "undefined") {
         if (slideIndex = $this.attr('data-slide-to')) {
             $target.data('bs.carousel').to(slideIndex)
         }
-        e.preventDefault()
     })
     $(window).on('load', function() {
         $('[data-ride="carousel"]').each(function() {
             var $carousel = $(this)
             $carousel.carousel($carousel.data())
         })
-    })
-}(jQuery);
-+function($) {
-    "use strict";
-    var Collapse = function(element, options) {
-        this.$element = $(element)
-        this.options = $.extend({}, Collapse.DEFAULTS, options)
-        this.transitioning = null
-        if (this.options.parent)
-            this.$parent = $(this.options.parent)
-        if (this.options.toggle)
-            this.toggle()
-    }
-    Collapse.DEFAULTS = {toggle: true}
-    Collapse.prototype.dimension = function() {
-        var hasWidth = this.$element.hasClass('width')
-        return hasWidth ? 'width' : 'height'
-    }
-    Collapse.prototype.show = function() {
-        if (this.transitioning || this.$element.hasClass('in'))
-            return
-        var startEvent = $.Event('show.bs.collapse')
-        this.$element.trigger(startEvent)
-        if (startEvent.isDefaultPrevented())
-            return
-        var actives = this.$parent && this.$parent.find('> .panel > .in')
-        if (actives && actives.length) {
-            var hasData = actives.data('bs.collapse')
-            if (hasData && hasData.transitioning)
-                return
-            actives.collapse('hide')
-            hasData || actives.data('bs.collapse', null)
-        }
-        var dimension = this.dimension()
-        this.$element
-        .removeClass('collapse')
-        .addClass('collapsing')
-        [dimension](0)
-        this.transitioning = 1
-        var complete = function() {
-            this.$element
-            .removeClass('collapsing')
-            .addClass('in')
-            [dimension]('auto')
-            this.transitioning = 0
-            this.$element.trigger('shown.bs.collapse')
-        }
-        if (!$.support.transition)
-            return complete.call(this)
-        var scrollSize = $.camelCase(['scroll', dimension].join('-'))
-        this.$element
-        .one($.support.transition.end, $.proxy(complete, this))
-        .emulateTransitionEnd(350)
-        [dimension](this.$element[0][scrollSize])
-    }
-    Collapse.prototype.hide = function() {
-        if (this.transitioning || !this.$element.hasClass('in'))
-            return
-        var startEvent = $.Event('hide.bs.collapse')
-        this.$element.trigger(startEvent)
-        if (startEvent.isDefaultPrevented())
-            return
-        var dimension = this.dimension()
-        this.$element
-        [dimension](this.$element[dimension]())
-        [0].offsetHeight
-        this.$element
-        .addClass('collapsing')
-        .removeClass('collapse')
-        .removeClass('in')
-        this.transitioning = 1
-        var complete = function() {
-            this.transitioning = 0
-            this.$element
-            .trigger('hidden.bs.collapse')
-            .removeClass('collapsing')
-            .addClass('collapse')
-        }
-        if (!$.support.transition)
-            return complete.call(this)
-        this.$element
-        [dimension](0)
-        .one($.support.transition.end, $.proxy(complete, this))
-        .emulateTransitionEnd(350)
-    }
-    Collapse.prototype.toggle = function() {
-        this[this.$element.hasClass('in') ? 'hide' : 'show']()
-    }
-    var old = $.fn.collapse
-    $.fn.collapse = function(option) {
-        return this.each(function() {
-            var $this = $(this)
-            var data = $this.data('bs.collapse')
-            var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
-            if (!data)
-                $this.data('bs.collapse', (data = new Collapse(this, options)))
-            if (typeof option == 'string')
-                data[option]()
-        })
-    }
-    $.fn.collapse.Constructor = Collapse
-    $.fn.collapse.noConflict = function() {
-        $.fn.collapse = old
-        return this
-    }
-    $(document).on('click.bs.collapse.data-api', '[data-toggle=collapse]', function(e) {
-        var $this = $(this), href
-        var target = $this.attr('data-target') || e.preventDefault() || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')
-        var $target = $(target)
-        var data = $target.data('bs.collapse')
-        var option = data ? 'toggle' : $this.data()
-        var parent = $this.attr('data-parent')
-        var $parent = parent && $(parent)
-        if (!data || !data.transitioning) {
-            if ($parent)
-                $parent.find('[data-toggle=collapse][data-parent="' + parent + '"]').not($this).addClass('collapsed')
-            $this[$target.hasClass('in') ? 'addClass' : 'removeClass']('collapsed')
-        }
-        $target.collapse(option)
     })
 }(jQuery);
 +function($) {
@@ -2919,7 +2738,6 @@ if (typeof jQuery === "undefined") {
         if (!/(38|40|27)/.test(e.keyCode))
             return
         var $this = $(this)
-        e.preventDefault()
         e.stopPropagation()
         if ($this.is('.disabled, :disabled'))
             return
@@ -3032,7 +2850,6 @@ if (typeof jQuery === "undefined") {
     }
     Modal.prototype.hide = function(e) {
         if (e)
-            e.preventDefault()
         e = $.Event('hide.bs.modal')
         this.$element.trigger(e)
         if (!this.isShown || e.isDefaultPrevented())
@@ -3131,7 +2948,6 @@ if (typeof jQuery === "undefined") {
         var href = $this.attr('href')
         var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, '')))
         var option = $target.data('modal') ? 'toggle' : $.extend({remote: !/#/.test(href) && href}, $target.data(), $this.data())
-        e.preventDefault()
         $target
         .modal(option, this)
         .one('hide', function() {
@@ -3606,7 +3422,6 @@ if (typeof jQuery === "undefined") {
         return this
     }
     $(document).on('click.bs.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function(e) {
-        e.preventDefault()
         $(this).tab('show')
     })
 }(jQuery);
@@ -3978,14 +3793,12 @@ Date.now = Date.now || function() {
         });
         $(document).on('click', '[data-toggle="ajaxModal"]', function(e) {
             $('#ajaxModal').remove();
-            e.preventDefault();
             var $this = $(this), $remote = $this.data('remote') || $this.attr('href'), $modal = $('<div class="modal" id="ajaxModal"><div class="modal-body"></div></div>');
             $('body').append($modal);
             $modal.modal();
             $modal.load($remote);
         });
         $.fn.dropdown.Constructor.prototype.change = function(e) {
-            e.preventDefault();
             var $item = $(e.target), $select, $checked = false, $menu, $label;
             !$item.is('a') && ($item = $item.closest('a'));
             $menu = $item.closest('.dropdown-menu');
@@ -4018,7 +3831,6 @@ Date.now = Date.now || function() {
         $(document).on('click.dropdown-menu', '.dropdown-select > li > a', $.fn.dropdown.Constructor.prototype.change);
         $("[data-toggle=tooltip]").tooltip();
         $(document).on('click', '[data-toggle^="class"]', function(e) {
-            e && e.preventDefault();
             var $this = $(e.target), $class, $target, $tmp, $classes, $targets;
             !$this.data('toggle') && ($this = $this.closest('[data-toggle^="class"]'));
             $class = $this.data()['toggle'];
@@ -4031,7 +3843,6 @@ Date.now = Date.now || function() {
             $this.toggleClass('active');
         });
         $(document).on('click', '.panel-toggle', function(e) {
-            e && e.preventDefault();
             var $this = $(e.target), $class = 'collapse', $target;
             if (!$this.is('a'))
                 $this = $this.closest('a');
@@ -4040,11 +3851,6 @@ Date.now = Date.now || function() {
             $this.toggleClass('active');
         });
         $('.carousel.auto').carousel();
-        $(document).on('click.button.data-api', '[data-loading-text]', function(e) {
-            var $this = $(e.target);
-            $this.is('i') && ($this = $this.parent());
-            $this.button('loading');
-        });
         var scrollToTop = function() {
             !location.hash && setTimeout(function() {
                 if (!pageYOffset)
@@ -4086,7 +3892,7 @@ Date.now = Date.now || function() {
             $active && $active.find('> a').toggleClass('active') && $active.toggleClass('active').find('> ul:visible').slideUp(200);
             ($this.hasClass('active') && $this.next().slideUp(200)) || $this.next().slideDown(200);
             $this.toggleClass('active').parent().toggleClass('active');
-            $this.next().is('ul') && e.preventDefault();
+            $this.next().is('ul');
         });
         $(document).on('click.bs.dropdown.data-api', '.dropdown .on, .dropup .on', function(e) {
             e.stopPropagation()
@@ -4154,7 +3960,6 @@ Date.now = Date.now || function() {
                 return false;
             };
             this.ondrop = function(e) {
-                e.preventDefault();
                 $dropbox.removeClass('hover').html('');
                 var file = e.dataTransfer.files[0], reader = new FileReader();
                 reader.onload = function(event) {
@@ -4189,7 +3994,6 @@ Date.now = Date.now || function() {
         });
         $('.pillbox input').on('keypress', function(e) {
             if (e.which == 13) {
-                e.preventDefault();
                 addPill($(this));
             }
         });
@@ -4234,7 +4038,6 @@ Date.now = Date.now || function() {
         });
         if ($.support.pjax) {
             $(document).on('click', 'a[data-pjax]', function(event) {
-                event.preventDefault();
                 var container = $($(this).data('target'));
                 $.pjax.click(event, {container: container});
             })
@@ -4249,15 +4052,12 @@ Date.now = Date.now || function() {
             $this.html(t.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
         });
         $(document).on('click', '.fontawesome-icon-list a', function(e) {
-            e && e.preventDefault();
         });
         $(document).on('change', 'table thead [type="checkbox"]', function(e) {
-            e && e.preventDefault();
             var $table = $(e.target).closest('table'), $checked = $(e.target).is(':checked');
             $('tbody [type="checkbox"]', $table).prop('checked', $checked);
         });
         $(document).on('click', '[data-toggle^="progress"]', function(e) {
-            e && e.preventDefault();
             $el = $(e.target);
             $target = $($el.data('target'));
             $('.progress', $target).each(function() {
@@ -4296,7 +4096,6 @@ Date.now = Date.now || function() {
                         d.wheelDelta && (c = -d.wheelDelta / 120);
                         d.detail && (c = d.detail / 3);
                         f(d.target || d.srcTarget || d.srcElement).closest("." + a.wrapperClass).is(b.parent()) && m(c, !0);
-                        d.preventDefault && !k && d.preventDefault();
                         k || (d.returnValue = !1)
                     }
                 }
@@ -4385,7 +4184,6 @@ Date.now = Date.now || function() {
                         return !1
                     }).bind("selectstart.slimscroll", function(a) {
                         a.stopPropagation();
-                        a.preventDefault();
                         return !1
                     });
                     g.hover(function() {
@@ -4410,7 +4208,6 @@ Date.now = Date.now || function() {
                         a.originalEvent.touches.length && (z = a.originalEvent.touches[0].pageY)
                     });
                     b.bind("touchmove", function(b) {
-                        k || b.originalEvent.preventDefault();
                         b.originalEvent.touches.length && (m((z - b.originalEvent.touches[0].pageY) / a.touchScrollStep, !0), z = b.originalEvent.touches[0].pageY)
                     });
                     w();

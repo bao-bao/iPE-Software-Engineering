@@ -1,12 +1,5 @@
 ﻿@model iPE.Models.TicketCreateModel
 
-@{
-    ViewBag.Title = "Create";
-}
-
-<h2>Create</h2>
-
-
 @*@using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
@@ -98,7 +91,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script type="text/javascript">
 		jQuery(document).ready(function($) {
 			$(".scroll").click(function(event){
-				event.preventDefault();
 				$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
 			});
 		});
@@ -127,11 +119,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav cl-effect-11">
-                                <li class="active"><a href="#" data-hover="Home" class="scroll">Home </a></li>
-                                <li><a href="#Login" data-hover="Login" class="scroll">Login</a></li>
-                                <li><a href="#Tickets" data-hover="Tickets" class="scroll">Tickets</a></li>
-                                <li><a href="#MatchEnroll" data-hover="MatchEnroll" class="scroll">MatchEnroll</a></li>
-                                <li><a data-hover="Contact" href="#contact" class="scroll">Contact</a></li>
+                                <li class="active"><a href="/Home/Index" data-hover="Home" class="scroll">Home</a></li>
+                                <li><a href="/Ticket/Index" data-hover="Tickets" class="scroll">Tickets</a></li>
+                                <li><a href="/Match/Matches" data-hover="MatchEnroll" class="scroll">MatchEnroll</a></li>
+                                <li><a data-hover="Contact" href="/Homepage/homepage" class="scroll">Myhome</a></li>
 
                             </ul>
                         </div><!-- /.navbar-collapse -->
