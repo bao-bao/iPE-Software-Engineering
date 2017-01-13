@@ -26,5 +26,7 @@ namespace iPE.Models
         [Required]
         [StringLength(50)]
         public string location { get; set; }
+
+        public string description { get; set; }
     }
 }

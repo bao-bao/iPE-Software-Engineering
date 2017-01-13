@@ -1,122 +1,206 @@
 ﻿@model iPE.Models.TB_Match
 
-@{
-    ViewBag.Title = "Edit";
-}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>iPE</title>
+    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="~/Scripts/jquery.min.js"></script>
+    <!-- Custom Theme files -->
+    <!--theme-style-->
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="~/css/chocolat.css" type="text/css">
 
-<h2>Edit</h2>
+    <!--//theme-style-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta property="og:title" content="Vide" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Trip Guide Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!---->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!---->
+    <link href='//fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,800italic,800,700italic,700,600italic,600,400italic,300italic,300' rel='stylesheet' type='text/css'>
+    <script src="~/Scripts/jquery.chocolat.js"></script>
+    <!--lightboxfiles-->
+    <script type="text/javascript">
+		$(function() {
+			$('.gallery a').Chocolat();
+		});
+    </script>
+    <!--script-->
+    <!--startsmothscrolling-->
+    <script type="text/javascript" src="~/Scripts/move-top.js"></script>
+    <script type="text/javascript" src="~/Scripts/easing.js"></script>
+    <script type="text/javascript">
+		jQuery(document).ready(function($) {
+			$(".scroll").click(function(event){
+				$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
+			});
+		});
+    </script>
 
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>TB_Match</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.m_id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.u_id, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.u_id, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.u_id, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.t_id, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.t_id, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.t_id, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.sponsor, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.sponsor, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.sponsor, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.m_num, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.m_num, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.m_num, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.w_num, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.w_num, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.w_num, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.s_time, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.s_time, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.s_time, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.e_time, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.e_time, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.e_time, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.c_time, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.c_time, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.c_time, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.location, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.location, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.location, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+    <script src="~/Scripts/modernizr.custom.97074.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="header-menu">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="navbar-brand logo">
+                                <h1><a href="/Home/Index">iPE</a></h1>
+                            </div>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav cl-effect-11">
+                                <li class="active"><a href="/Home/Index" data-hover="Home" class="scroll">Home</a></li>
+                                <li><a href="/Ticket/Index" data-hover="Tickets" class="scroll">Tickets</a></li>
+                                <li><a href="/Match/Matches" data-hover="MatchEnroll" class="scroll">MatchEnroll</a></li>
+                                <li><a data-hover="Myhome" href="/Homepage/homepage" class="scroll">Myhome</a></li>
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+                    </div><!-- /.container-fluid -->
+                </nav>
+                <div class="clearfix"></div>
             </div>
         </div>
     </div>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Matches")
-</div>
+    <div class="content">
+        <div class="promotions">
+            <div class="container">
+                <h2 class="tittle">Matches Information</h2>
+                <span>You can provide matches for users to take part in</span>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group form-group-1 ">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">Name</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="Name" value="@Model.name">
+                        </div>
+                    </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">Sponsor</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="Sponsor" value="@Model.sponsor">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">Game Time</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="StartTime" value="@Model.s_time">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">End Time</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="EndTime" value="@Model.e_time">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">Enroll End</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="EnrollEnd" value="@Model.c_time">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">Location</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="Location" value="@Model.location">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">EnrollNumber</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="EnrollNumber" value="@Model.m_num">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">VisitNumber</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="VisitNumber" value="@Model.w_num">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">Description</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="Description" value="@Model.description">
+                        </div>
+                    </div>
+                    <input hidden="hidden" name="id" value="@Model.m_id" />
+                    <div class="form-group">
+                        <input class="col-sm-2 col-sm-offset-5 btn-danger" type="submit" value="submit" name="Submit">
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!--footer-->
+    <div class="copy-section">
+        <div class="container">
+            <div class="footer-top">
+                <p>&copy; 2016 iPE. All rights reserved | Design by Wu Shuhan</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+						$(document).ready(function() {
+							/*
+							var defaults = {
+					  			containerID: 'home', // fading element id
+								containerHoverID: 'toTopHover', // fading element hover id
+								scrollSpeed: 1200,
+								easingType: 'linear'
+					 		};
+							*/
+
+							$().UItoTop({ easingType: 'easeOutQuart' });
+
+						});
+    </script>
+    <a href="#" id="home" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-info">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="news-gr">
+                        <img src="images/p6.jpg" class="img-responsive" />
+                        <h3 class="tittle1">Trip Guide</h3>
+                        <p>Nam aliquam pretium feugiat. Duis sem est, viverra eu interdum ac, suscipit nec mauris. Suspendisse commodo tempor sagittis! In justo est, sollicitudin eu scelerisque pretium, placerat eget elit. Praesent faucibus rutrum odio at rhoncus. Pel ermentum pretium. Maecenas ac lacus ut neque rhoncus laoreet sed id tellus. Donec justo tellus.</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

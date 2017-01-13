@@ -13,50 +13,71 @@ namespace iPE.Controllers
     public class MatchController : Controller
     {
         private Matches dbMat = new Matches();
+        private Joins dbJoi = new Joins();
 
         // GET: Matches
         public ActionResult Matches()
         {
-            List<TB_Match> matchList = (from a in dbMat.TB_Match where a.c_time > DateTime.Now select a).ToList();
-            List <MatchViewModels> matchViewList = new List<MatchViewModels>();
-            foreach(TB_Match match in matchList)
+            if (ModelState.IsValid)
             {
-                MatchViewModels matchView = new MatchViewModels();
-                matchView.id = match.m_id;
-                matchView.name = match.name;
-                matchView.sponsor = match.sponsor;
-                matchView.time = match.s_time.ToShortDateString() + " —— " + match.e_time.ToShortDateString();
-                matchView.location = match.location;
-                matchViewList.Add(matchView);
+                List<TB_Match> matchList = (from a in dbMat.TB_Match where a.c_time > DateTime.Now select a).ToList();
+                List<MatchViewModels> matchViewList = new List<MatchViewModels>();
+                foreach (TB_Match match in matchList)
+                {
+                    MatchViewModels matchView = new MatchViewModels();
+                    matchView.id = match.m_id;
+                    matchView.name = match.name;
+                    matchView.sponsor = match.sponsor;
+                    matchView.time = match.s_time.ToShortDateString() + " —— " + match.e_time.ToShortDateString();
+                    matchView.location = match.location;
+                    if (match.description == null)
+                    {
+                        matchView.description = "there's nothing";
+                    }
+                    else
+                    {
+                        matchView.description = match.description;
+                    }
+                    matchViewList.Add(matchView);
+                }
+                return View(matchViewList);
             }
-            return View(matchViewList);
+            return HttpNotFound();
         }
 
         // GET: Match/Details
         public ActionResult Details(int? id = null)
         {
+            TB_Match tB_Match;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TB_Match tB_Match = dbMat.TB_Match.Find(id);
-            if (tB_Match == null)
+            if (ModelState.IsValid)
             {
-                return HttpNotFound();
+                tB_Match = dbMat.TB_Match.Find(id);
+                if (tB_Match != null)
+                {
+                    return View(tB_Match);
+                }
             }
-            return View(tB_Match);
+            return HttpNotFound();
         }
 
         // GET: Match/CreateMatch
         public ActionResult CreateMatch()
         {
-            //decimal curUserAuthority = (Session["UserLogin"] as UserLoginModel).authority;
-            decimal curUserAuthority = 1;
+            UserLoginModel user = (Session["UserMessage"] as UserLoginModel);
+            if (user == null)
+            {
+                return Content("<script language='javascript'>alert('Please Login First!');top.location='/LoginAndRegister/Index';</script>");
+            }
+            int curUserAuthority = user.authority;
 
             // due to have no authority
             if (curUserAuthority == 0)
             {
-                return RedirectToAction("Fail", new { failCode = 1 });
+                return Content("<script language='javascript'>alert('You need match manager privilege!');top.location='/HomePage/homepage';</script>");
             }
             return View();
         }
@@ -66,31 +87,44 @@ namespace iPE.Controllers
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateMatch([Bind(Include = "m_id,u_id,t_id,name,sponsor,m_num,w_num,s_time,e_time,c_time,location,description")] TB_Match tB_Match)
+        public ActionResult CreateMatch([Bind(Include = "m_id,u_id,t_id,name,sponsor,m_num,w_num,s_time,e_time,c_time,location,description")] TB_Match tB_Mmatch)
         {
-            //decimal curUserId = (Session["UserLogin"] as UserLoginModel).id;
-            decimal curUserId = 1;
-            //decimal curUserAuthority = (Session["UserLogin"] as UserLoginModel).authority;
-            decimal curUserAuthority = 1;
-
-            // due to have no authority
-            if (curUserAuthority == 0)
+            UserLoginModel user = (Session["UserMessage"] as UserLoginModel);
+            if (user == null)
             {
-                return RedirectToAction("Fail", new { failCode = 1 });
+                return Content("<script language='javascript'>alert('Please Login First!');top.location='/LoginAndRegister/Index';</script>");
             }
-            // due to have been created
-            foreach(TB_Match match in dbMat.TB_Match)
+            int curUserId = user.id;
+
+            TB_Match tB_Match = new TB_Match();
+
+            tB_Match.u_id = curUserId;
+            tB_Match.name = Request.Form["Name"];
+            tB_Match.sponsor = Request.Form["Sponsor"];
+            tB_Match.s_time = DateTime.Parse(Request.Form["StartTime"]);
+            tB_Match.e_time = DateTime.Parse(Request.Form["EndTime"]);
+            tB_Match.c_time = DateTime.Parse(Request.Form["EnrollTime"]);
+            tB_Match.m_num = int.Parse(Request.Form["EnrollNumber"]);
+            tB_Match.w_num = int.Parse(Request.Form["VisitNumber"]);
+            tB_Match.location = Request.Form["Location"];
+            if (Request.Form["Description"] == "You can keep it empty")
             {
-                if(match.u_id == curUserId && match.e_time > DateTime.Now)
-                {
-                    return RedirectToAction("Fail", new { failCode = 2 });
-                }
+                tB_Match.description = null;
+            }
+            else
+            {
+                tB_Match.description = Request.Form["Description"];
             }
 
             if (ModelState.IsValid)
             {
                 dbMat.TB_Match.Add(tB_Match);
                 dbMat.SaveChanges();
+                if (Request.Form["Ticket"] != null)
+                {
+                    int m_id = (from a in dbMat.TB_Match where a.name == tB_Match.name select a.m_id).ToList().FirstOrDefault();
+                    return RedirectToAction("Create", "Ticket", new { id = m_id });
+                }
                 return RedirectToAction("Matches");
             }
 
@@ -98,16 +132,15 @@ namespace iPE.Controllers
         }
 
         // GET: Match/Edit
-        public ActionResult Edit(int? id)
+        public ActionResult Edit()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TB_Match tB_Match = dbMat.TB_Match.Find(id);
+            UserLoginModel user = (Session["UserMessage"] as UserLoginModel);
+            int uid = user.id;
+
+            TB_Match tB_Match = (from a in dbMat.TB_Match where a.u_id == uid select a).ToList().FirstOrDefault();
             if (tB_Match == null)
             {
-                return HttpNotFound();
+                return Content("<script>alert('You have NO match released!');history.go(-1);</script>");
             }
             return View(tB_Match);
         }
@@ -117,15 +150,75 @@ namespace iPE.Controllers
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "m_id,u_id,t_id,name,sponsor,m_num,w_num,s_time,e_time,c_time,location,description")] TB_Match tB_Match)
+        public ActionResult Edit(int? id)
+        {
+            TB_Match tB_Match = dbMat.TB_Match.Find(int.Parse(Request.Form["id"]));
+
+            tB_Match.name = Request.Form["Name"];
+            tB_Match.sponsor = Request.Form["Sponsor"];
+            tB_Match.s_time = DateTime.Parse(Request.Form["StartTime"]);
+            tB_Match.e_time = DateTime.Parse(Request.Form["EndTime"]);
+            tB_Match.c_time = DateTime.Parse(Request.Form["EnrollEnd"]);
+            tB_Match.m_num = int.Parse(Request.Form["EnrollNumber"]);
+            tB_Match.w_num = int.Parse(Request.Form["VisitNumber"]);
+            tB_Match.location = Request.Form["Location"];
+            tB_Match.description = Request.Form["Description"];
+
+            if (string.IsNullOrEmpty(Request.Form["Submit"]) == false)
+            {
+                if (ModelState.IsValid)
+                {
+                    dbMat.Entry(tB_Match).State = EntityState.Modified;
+                    dbMat.SaveChanges();
+                    return Content("<script>alert('Edit succseefully!');top.location='/Match/Matches';</script>");
+                }
+                return View(tB_Match);
+            }
+            return View(tB_Match);
+        }
+
+        public ActionResult Detail(int id)
+        {
+            TB_Match match = new TB_Match();
+            match = (from a in dbMat.TB_Match where a.m_id == id select a).ToList().FirstOrDefault();
+            if (match != null)
+            {
+                return View(match);
+            }
+            return RedirectToAction("Matches");
+        }
+
+        [HttpPost]
+        public ActionResult Detail(string id, string none)
         {
             if (ModelState.IsValid)
             {
-                dbMat.Entry(tB_Match).State = EntityState.Modified;
-                dbMat.SaveChanges();
-                return RedirectToAction("Matches");
+                if (Request.Form["Enroll"] != null)
+                {
+                    TB_Join join = new TB_Join();
+                    UserLoginModel user = (Session["UserMessage"] as UserLoginModel);
+                    if (user == null)
+                    {
+                        return Content("<script language='javascript'>alert('Please Login First!');top.location='/LoginAndRegister/Index';</script>");
+                    }
+
+                    join.u_id = user.id;
+                    join.m_id = int.Parse(Request.Form["Enroll"]);
+                    join.time = DateTime.Now;
+                    foreach (TB_Join j in dbJoi.TB_Join)
+                    {
+                        if (j.m_id == join.m_id && j.u_id == join.u_id)
+                        {
+                            return Content("<script>alert('You have enrolled this match!'); top.location='Matches'; </script>");
+                        }
+                    }
+
+                    dbJoi.TB_Join.Add(join);
+                    dbJoi.SaveChanges();
+                    return Content("<script language='javascript'>alert('Enroll successfully!');top.location='Matches';</script>");
+                }
             }
-            return View(tB_Match);
+            return Content("<script language='javascript'>alert('Interal error!');top.location='Matches';</script>");
         }
 
         // GET: Match/Cancel
@@ -152,21 +245,6 @@ namespace iPE.Controllers
             dbMat.TB_Match.Remove(tB_Match);
             dbMat.SaveChanges();
             return RedirectToAction("Matches");
-        }
-
-        //GET: Match/Fail
-        public ActionResult Fail(int failCode = 0)
-        {
-            string hit = "";
-            if(failCode == 1)
-            {
-                hit = "you have no authority!";
-            }
-            if(failCode == 2)
-            {
-                hit = "you have been created a match!";
-            }
-            return View(hit);
         }
 
         protected override void Dispose(bool disposing)
