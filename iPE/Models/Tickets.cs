@@ -8,11 +8,11 @@ namespace iPE.Models
     public partial class Tickets : DbContext
     {
         public Tickets()
-            : base("name=Tickets")
+            : base("name=Ticket")
         {
         }
 
-        public virtual DbSet<TB_Ticket> TB_Ticket { get; set; }
+        public virtual DbSet<TB_Ticket> TB_Tickets { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

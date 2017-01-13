@@ -1298,3 +1298,48 @@ h3.tittle1 {
 .form-group-1{
     padding-top: 2.5em;
 }
+
+.tips1{
+    padding-top: 5em;
+    margin-top: 5em;
+    font-size: large;
+}
+
+.tips2{
+    padding-top: 5em;
+    margin-top: 5em;
+}
+
+.background1{
+    background: #f5e1d6;
+}
+
+#collect1 {
+    font-size: 0.5em;
+    margin-top: 0;
+    text-align: center;
+}
+
+.match-list-style{
+    height:100%;
+    font-size: 1.5em;
+    color:#bd5839;
+    text-align: center;
+}
+
+.watch{
+    font-size: 1.5em;
+    color:#bd5839;
+    text-align: center;
+}
+
+.list-element{
+    height: 87px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.list-of-match{
+    padding-top:20px;
+}
+

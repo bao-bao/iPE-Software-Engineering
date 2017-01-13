@@ -1,0 +1,303 @@
+﻿@model IEnumerable<iPE.Models.Data5>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>iPE</title>
+    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="~/Scripts/jquery.min.js"></script>
+    <!-- Custom Theme files -->
+    <!--theme-style-->
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="~/css/chocolat.css" type="text/css">
+
+    <!--//theme-style-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta property="og:title" content="Vide" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Trip Guide Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!---->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!---->
+    <link href='//fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,800italic,800,700italic,700,600italic,600,400italic,300italic,300' rel='stylesheet' type='text/css'>
+    <script src="~/Scripts/jquery.chocolat.js"></script>
+    <!--lightboxfiles-->
+    <script type="text/javascript">
+        $(function () {
+            $('.gallery a').Chocolat();
+        });
+    </script>
+    <!--script-->
+    <!--startsmothscrolling-->
+    <script type="text/javascript" src="~/Scripts/move-top.js"></script>
+    <script type="text/javascript" src="~/Scripts/easing.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1200);
+            });
+        });
+    </script>
+
+    <script src="~/Scripts/modernizr.custom.97074.js"></script>
+</head>
+<body>
+    <div class="banner-section">
+        <div class="container">
+            <div class="banner-heder">
+                <h1>&nbsp;</h1>
+            </div>
+            <div class="find">
+                @using (Html.BeginForm())
+                {
+                    <div class="col-md-8 banner-grid">
+                        <input class="sel" type="text" name="search_name" value="League or Team" onblur="if(this.value==''){this.value='League or Team';}" onfocus="this.value='';" />
+                    </div>
+                    <div class="col-md-4 search">
+
+                        <input type="submit" value="Check Availability">
+
+                    </div>
+                }
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="header">
+        <div class="container">
+            <div class="header-menu">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="navbar-brand logo">
+                                <h1><a href="/Home/Index">iPE</a></h1>
+                            </div>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav cl-effect-11">
+                                <li class="active"><a href="/Home/Index" data-hover="Home" class="scroll">Home </a></li>
+                                <li><a href="/Ticket/Index" data-hover="Tickets" class="scroll">Tickets</a></li>
+                                <li><a href="/Match/Matches" data-hover="MatchEnroll" class="scroll">MatchEnroll</a></li>
+                                <li><a data-hover="Myhome" href="/HomePage/homepage" class="scroll">Myhome</a></li>
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+                    </div><!-- /.container-fluid -->
+                </nav>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="promotions">
+            <div class="container">
+                <h2 class="tittle">Recent Matches</h2>
+                <span>All matches in two days before and after</span>
+                <div class="list-of-match">
+                    @{
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            string team1 = "Mark";
+                            string team2 = "Mark";
+                            if (item.status == 1)
+                            {
+                                team1 = "Marked";
+                            }
+                            else if (item.status == 2)
+                            {
+                                team2 = "Marked";
+                            }
+                            else if (item.status == 3)
+                            {
+                                team1 = team2 = "Marked";
+                            }
+                            <div class="list-element">
+                                <form id="@i" method="post">
+                                    <div class="col-md-2 match-list-style">
+                                        <input hidden="hidden" value="1" name="id" />
+                                        <input hidden="hidden" value="@item.team1" name="team" />
+                                        @Html.DisplayFor(modelItem => item.team1)<br>
+                                        <a id="collect1" href="#" onclick="document.getElementById(@i).submit();">@team1</a>
+                                    </div>
+                                </form>
+                                @{
+                                    i++;
+                                }
+                                <form id="@i" method="post">
+                                    <div class="col-md-2 match-list-style">
+                                        <input hidden="hidden" value="2" name="id" />
+                                        <input hidden="hidden" value="@item.team2" name="team" />
+                                        @Html.DisplayFor(modelItem => item.team2)<br>
+                                        <a id="collect1" href="#" onclick="document.getElementById(@i).submit();">@team2</a>
+                                    </div>
+                                </form>
+                                @{
+                                    i++;
+                                }
+                                <!--<span class="col-md-2 collect">collect</span>-->
+                                <div class="col-md-2 match-list-style">@Html.DisplayFor(modelItem => item.time)</div>
+                                <div class="col-md-2 match-list-style">@Html.DisplayFor(modelItem => item.score)</div>
+                                <a class="col-md-4 watch" href="@item.src">Go To Watch&nbsp;>>></a>
+                            </div>
+                                    }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery" id="tours">
+            <div class="container">
+                <h3 class="tittle">Photo Album</h3>
+                <div class="gallery-grids">
+                    <section>
+                        <ul id="da-thumbs" class="da-thumbs">
+                            <li>
+                                <a href="~/images/1.jpg" class="b-link-stripe b-animate-go thickbox">
+                                    <img src="~/images/1.jpg" alt="" />
+                                    <div>
+                                        <h5>Sport</h5>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="~/images/3.jpg" class="b-link-stripe b-animate-go thickbox">
+                                    <img src="~/images/3.jpg" alt="" />
+                                    <div>
+                                        <h5>Sport</h5>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="~/images/4.jpg" class="b-link-stripe b-animate-go thickbox">
+                                    <img src="~/images/4.jpg" alt="" />
+                                    <div>
+                                        <h5>Sport</h5>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="~/images/2.jpg" class="b-link-stripe b-animate-go thickbox">
+                                    <img src="~/images/2.jpg" alt="" />
+                                    <div>
+                                        <h5>Sport</h5>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="~/images/5.jpg" class="b-link-stripe b-animate-go thickbox">
+                                    <img src="~/images/5.jpg" alt="" />
+                                    <div>
+                                        <h5>Sport</h5>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="~/images/6.jpg" class="b-link-stripe b-animate-go thickbox">
+                                    <img src="~/images/6.jpg" alt="" />
+                                    <div>
+                                        <h5>Sport</h5>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="~/images/7.jpg" class="b-link-stripe b-animate-go thickbox">
+                                    <img src="~/images/7.jpg" alt="" />
+                                    <div>
+                                        <h5>Sport</h5>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="~/images/8.jpg" class="b-link-stripe b-animate-go thickbox">
+                                    <img src="~/images/8.jpg" alt="" />
+                                    <div>
+                                        <h5>Sport</h5>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="~/images/9.jpg" class="b-link-stripe b-animate-go thickbox">
+                                    <img src="~/images/9.jpg" alt="" />
+                                    <div>
+                                        <h5>Sport</h5>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </section>
+                </div>
+                <script type="text/javascript" src="~/Scripts/jquery.hoverdir.js"></script>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#da-thumbs > li').each(function () { $(this).hoverdir(); });
+                    });
+                </script>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!--footer-->
+    <div class="copy-section">
+        <div class="container">
+            <div class="footer-top">
+                <p>&copy; 2016 iPE. All rights reserved | Design by Wu Shuhan</p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            /*
+            var defaults = {
+                containerID: 'home', // fading element id
+                containerHoverID: 'toTopHover', // fading element hover id
+                scrollSpeed: 1200,
+                easingType: 'linear'
+            };
+            */
+
+            $().UItoTop({ easingType: 'easeOutQuart' });
+
+        });
+    </script>
+    <a href="#" id="home" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-info">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="news-gr">
+                        <img src="~/images/p6.jpg" class="img-responsive" />
+                        <h3 class="tittle1">Trip Guide</h3>
+                        <p>Nam aliquam pretium feugiat. Duis sem est, viverra eu interdum ac, suscipit nec mauris. Suspendisse commodo tempor sagittis! In justo est, sollicitudin eu scelerisque pretium, placerat eget elit. Praesent faucibus rutrum odio at rhoncus. Pel ermentum pretium. Maecenas ac lacus ut neque rhoncus laoreet sed id tellus. Donec justo tellus.</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
