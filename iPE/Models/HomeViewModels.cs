@@ -22,5 +22,6 @@ namespace iPE.Models
         public string state { get; set; }
         public string score { get; set; }
         public string src { get; set; }
+        public int status { get; set; }
     }
 }

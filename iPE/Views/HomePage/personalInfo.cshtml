@@ -90,10 +90,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <h2 class="tittle">Personal Information</h2>
                 <span>You can change your personal information</span>
 
-                <div class="form-horizontal" method="post">
+                @using (Html.BeginForm())
+                {
+                    <div class="form-horizontal" method="post">
 
-                    @using (Html.BeginForm())
-                    {
                         <div class="form-group form-group-1 ">
                             <label class="col-sm-2 col-sm-offset-2 control-label">UserName</label>
                             <div class="col-sm-5">
@@ -103,7 +103,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-offset-2 control-label">Password</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" name="Pwd">
+                                <input type="password" class="form-control" name="Pwd" value="@Model.pwd">
                             </div>
                         </div>
 
@@ -183,9 +183,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <div class="form-group">
                             <input class="col-sm-2 col-sm-offset-5 btn-danger" type="submit" value="Submit" />
                         </div>
+                    </div>
                                     }
-
-                </div>
             </div>
         </div>
     </div>

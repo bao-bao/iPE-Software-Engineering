@@ -97,7 +97,7 @@ namespace iPE.Controllers {
                 dbTicket.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return Content("<script>alert('创建失败');</script>");
+            return Content("<script>alert('创建失败');history.go(-1);</script>");
             //return View(ticketCreateModel);
         }
 

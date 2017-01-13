@@ -91,7 +91,7 @@
                             <div class="about-right">
                                 <h4>Personal Information</h4>
                                 <p>I'm best!</p>
-                                <a href="/Home/presonalInfo?id=@ViewData["uid"]">change</a>
+                                <a href="/HomePage/personalInfo?id=@ViewData["uid"]">change</a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -135,7 +135,12 @@
                             <div class="about-right">
                                 <h4>Launch</h4>
                                 <p>You have the privilege to launch matches</p>
-                                <a href="/index.html">launch</a>
+                                <form id="abc" method="post">
+                                    <input hidden="hidden" name="Apply" value="true"/>
+                                    <a href="/Match/CreateMatch">launch</a>
+                                    <span>&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;</span>
+                                    <a href="#" onclick="document.getElementById('abc').submit();">apply for manager</a>
+                                </form>
                             </div>
                             <div class="clearfix"></div>
                         </div>

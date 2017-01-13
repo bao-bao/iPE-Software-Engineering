@@ -33,20 +33,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="~/Scripts/jquery.chocolat.js"></script>
     <!--lightboxfiles-->
     <script type="text/javascript">
-		$(function() {
-			$('.gallery a').Chocolat();
-		});
+        $(function () {
+            $('.gallery a').Chocolat();
+        });
     </script>
     <!--script-->
     <!--startsmothscrolling-->
     <script type="text/javascript" src="~/Scripts/move-top.js"></script>
     <script type="text/javascript" src="~/Scripts/easing.js"></script>
     <script type="text/javascript">
-		jQuery(document).ready(function($) {
-			$(".scroll").click(function(event){
-				$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
-			});
-		});
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1200);
+            });
+        });
     </script>
 
     <script src="~/Scripts/modernizr.custom.97074.js"></script>
@@ -61,7 +61,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 @using (Html.BeginForm())
                 {
                     <div class="col-md-8 banner-grid">
-                        <input class="sel" type="text" name="search_name" value="League or Team" onblur="if(this.value==''){this.value='League or Team';}" onfocus="this.value='';"/>
+                        <input class="sel" type="text" name="search_name" value="League or Team" onblur="if(this.value==''){this.value='League or Team';}" onfocus="this.value='';" />
                     </div>
                     <div class="col-md-4 search">
 
@@ -112,22 +112,53 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <h2 class="tittle">Recent Matches</h2>
                 <span>All matches in two days before and after</span>
                 <div class="list-of-match">
-                    @foreach (var item in Model)
-                    {
-                        <div class="list-element">
-                            <div class="col-md-2 match-list-style">
-                                @Html.DisplayFor(modelItem => item.team1)<br>
-                                <a id="collect1" href="">collect1</a>
+                    @{
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            string team1 = "Mark";
+                            string team2 = "Mark";
+                            if (item.status == 1)
+                            {
+                                team1 = "Marked";
+                            }
+                            else if (item.status == 2)
+                            {
+                                team2 = "Marked";
+                            }
+                            else if (item.status == 3)
+                            {
+                                team1 = team2 = "Marked";
+                            }
+                            <div class="list-element">
+                                <form id="@i" method="post">
+                                    <div class="col-md-2 match-list-style">
+                                        <input hidden="hidden" value="1" name="id" />
+                                        <input hidden="hidden" value="@item.team1" name="team" />
+                                        @Html.DisplayFor(modelItem => item.team1)<br>
+                                        <a id="collect1" href="#" onclick="document.getElementById(@i).submit();">@team1</a>
+                                    </div>
+                                </form>
+                                @{
+                                    i++;
+                                }
+                                <form id="@i" method="post">
+                                    <div class="col-md-2 match-list-style">
+                                        <input hidden="hidden" value="2" name="id" />
+                                        <input hidden="hidden" value="@item.team2" name="team" />
+                                        @Html.DisplayFor(modelItem => item.team2)<br>
+                                        <a id="collect1" href="#" onclick="document.getElementById(@i).submit();">@team2</a>
+                                    </div>
+                                </form>
+                                @{
+                                    i++;
+                                }
+                                <!--<span class="col-md-2 collect">collect</span>-->
+                                <div class="col-md-2 match-list-style">@Html.DisplayFor(modelItem => item.time)</div>
+                                <div class="col-md-2 match-list-style">@Html.DisplayFor(modelItem => item.score)</div>
+                                <a class="col-md-4 watch" href="@item.src">Go To Watch&nbsp;>>></a>
                             </div>
-                            <div class="col-md-2 match-list-style">
-                                @Html.DisplayFor(modelItem => item.team2)<br>
-                                <a id="collect1" href="">collect2</a>
-                            </div>
-                            <!--<span class="col-md-2 collect">collect</span>-->
-                            <div class="col-md-2 match-list-style">@Html.DisplayFor(modelItem => item.time)</div>
-                            <div class="col-md-2 match-list-style">@Html.DisplayFor(modelItem => item.score)</div>
-                            <a class="col-md-4 watch" href="@item.src">Go To Watch&nbsp;>>></a>
-                        </div>
+                                    }
                     }
                 </div>
             </div>
@@ -217,9 +248,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
                 <script type="text/javascript" src="~/Scripts/jquery.hoverdir.js"></script>
                 <script type="text/javascript">
-					$(function() {
-						$('#da-thumbs > li').each( function() { $(this).hoverdir(); } );
-					});
+                    $(function () {
+                        $('#da-thumbs > li').each(function () { $(this).hoverdir(); });
+                    });
                 </script>
             </div>
         </div>
@@ -236,19 +267,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
     </div>
     <script type="text/javascript">
-						$(document).ready(function() {
-							/*
-							var defaults = {
-					  			containerID: 'home', // fading element id
-								containerHoverID: 'toTopHover', // fading element hover id
-								scrollSpeed: 1200,
-								easingType: 'linear'
-					 		};
-							*/
+        $(document).ready(function () {
+            /*
+            var defaults = {
+                containerID: 'home', // fading element id
+                containerHoverID: 'toTopHover', // fading element hover id
+                scrollSpeed: 1200,
+                easingType: 'linear'
+            };
+            */
 
-							$().UItoTop({ easingType: 'easeOutQuart' });
+            $().UItoTop({ easingType: 'easeOutQuart' });
 
-						});
+        });
     </script>
     <a href="#" id="home" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
     <div class="modal fade" id="myModal1" tabindex="-1" role="dialog">

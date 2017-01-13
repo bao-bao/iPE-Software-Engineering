@@ -97,10 +97,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <h4>Description</h4>
                                 @{ int left = Model.max - Model.sell;
                                     string time = Model.time.ToShortDateString();
+                                    string des = Model.description;
+                                    if (Model.description == "" || Model.description == null)
+                                    {
+                                        des = "nothing here...";
+                                    }
                                     <p>@left left</p>
                                     <p>@time</p>
+                                    <p>@des</p>
                                 }
-                                <p>@Model.description</p>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -121,19 +126,31 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </div>
                             <div class="about-right" style="padding-left:30px; padding-top:20px">
                                 <h4>Number</h4>
-                                <input name="Number" type="number" class="form-control" style="width:150px; margin-top:15px"/>
+                                <input name="Number" type="number" class="form-control" style="width:150px; margin-top:15px" />
                             </div>
                             <div class="clearfix"></div>
                         </div>
 
-                        <div class="about-top1">
-                            <form id="subform" method="post">
-                                <div class="more m2" style="margin:0 auto">
-                                    <input hidden="hidden" name="Enroll" value="@Model.t_id" />
-                                    <input hidden="hidden" name="None" value="none" />
-                                    <a href="#" name="submit" onclick="document.getElementById('subform').submit(); return false;" class="btn effect6">Buy Now</a>
+                        <div class="about-top1" style="margin-top:50px">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form id="subform" method="post">
+                                        <div class="more m2" style="margin:0 auto">
+                                            <input hidden="hidden" name="Enroll" value="@Model.t_id" />
+                                            <input hidden="hidden" name="None" value="none" />
+                                            <a href="#" name="submit" onclick="document.getElementById('subform').submit(); return false;" class="btn effect6">Buy Now</a>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
+                                <div class="col-md-6">
+                                    <div class="more m2" style="margin:0 auto">
+                                        <a href="#" onclick="history.go(-1);" name="submit" class="btn effect6">Return</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                         </div>
                     </div>
                     <div class="clearfix"></div>

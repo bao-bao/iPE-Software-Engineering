@@ -45,7 +45,7 @@ namespace iPE.Controllers
             foreach (TB_Join item in joined)
             {
                 List<TB_Match> matchList = (from a in dbMat.TB_Match where (a.m_id == item.m_id) select a).ToList();
-                List<MatchViewModels> matchViewList = new List<MatchViewModels>();
+                viewModel.enrollMatches = new List<MatchViewModels>();
                 foreach (TB_Match match in matchList)
                 {
                     MatchViewModels matchView = new MatchViewModels();
@@ -71,6 +71,32 @@ namespace iPE.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        public ActionResult Homepage(int? id)
+        {
+            if(string.IsNullOrEmpty(Request.Form["Apply"]) == false)
+            {
+                UserLoginModel user = (Session["UserMessage"] as UserLoginModel);
+                id = user.id;
+                TB_User my = dbUse.TB_User.Find(id);
+                if(my != null)
+                {
+                    if(my.authority == Users.NORMAL_USER)
+                    {
+                        my.authority = Users.MANAGER_USER;
+                        if(ModelState.IsValid)
+                        {
+                            dbUse.Entry(my).State = EntityState.Modified;
+                            dbUse.SaveChanges();
+                            return Content("<script language='javascript'>alert('You are match manager now!');history.go(-1);</script>");
+                        }
+                    }
+                    return Content("<script language='javascript'>alert('You already have this privilege!');top.location='/Match/CreateMatch';</script>");
+                }
+            }
+            return View();
+        }
+
         public ActionResult personalInfo(int? id)
         {
             TB_User user = new TB_User();
@@ -83,11 +109,11 @@ namespace iPE.Controllers
         }
 
         [HttpPost]
-        public ActionResult personalInfo([Bind(Include = "u_id,username,pwd,name,gender,card_id,phone,birthday,authority,organization")] TB_User tB_user)
+        public ActionResult personalInfo(string username)
         {
-            TB_User user = new TB_User();
+            TB_User user = dbUse.TB_User.Find((Session["UserMessage"] as UserLoginModel).id);
             user.username = Request.Form["Username"];
-            if(Request.Form["Pwd"] != null)
+            if(Request.Form["Pwd"] != "")
             {
                 user.pwd = Request.Form["Pwd"];
             }
@@ -106,14 +132,24 @@ namespace iPE.Controllers
             }
             user.card_id = Request.Form["Cardid"];
             user.phone = Request.Form["Phone"];
-            user.birthday = DateTime.Parse(Request.Form["Birthday"]);
-            user.organization = Request.Form["Organization"];
-
-            if(ModelState.IsValid)
+            if (Request.Form["Birthday"] != "")
             {
-                dbUse.Entry(user).State = EntityState.Modified;
-                dbUse.SaveChanges();
-                return RedirectToAction("homepage");
+                user.birthday = DateTime.Parse(Request.Form["Birthday"]);
+            }
+            user.organization = Request.Form["Organization"];
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    dbUse.Entry(user).State = EntityState.Modified;
+                    dbUse.SaveChanges();
+                }
+                catch(Exception e)
+                {
+                    return Content("<script language='javascript'>alert('Username has been used!');history.go(-1);</script>");
+                }
+                return Content("<script language='javascript'>alert('Change successfully!');history.go(-1);</script>");
             }
             return RedirectToAction("homepage");
         }

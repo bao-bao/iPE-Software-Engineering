@@ -19,10 +19,18 @@ namespace iPE.Controllers
     public class HomeController : Controller
     {
         private Matches db = new Matches();
+        private Collections dbCol = new Collections();
 
         // GET: Home
         public ActionResult Index()
         {
+            int uid = 0;
+            UserLoginModel user = (Session["UserMessage"] as UserLoginModel);
+            if(user != null)
+            {
+                uid = user.id;
+            }
+
             string T_name = "ac米兰";
 
             string appkey1 = "ff18dd43910ba9b60bb06952c51b1541"; //配置您申请的appkey足球
@@ -49,6 +57,29 @@ namespace iPE.Controllers
                 foreach (var item in game1.result.views.saicheng1)
                 {
                     Data5 data5 = ToData5(item);
+                    data5.status = 0;
+                    foreach (TB_Collection collection in dbCol.TB_Collection)
+                    {
+                        if (collection.u_id == uid)
+                        {
+                            if (collection.teamname == data5.team1)
+                            {
+                                if (data5.status != 0)
+                                {
+                                    data5.status = 3; break;
+                                }
+                                data5.status = 1;
+                            }
+                            else if (collection.teamname == data5.team2)
+                            {
+                                if (data5.status != 0)
+                                {
+                                    data5.status = 3; break;
+                                }
+                                data5.status = 2;
+                            }
+                        }
+                    }
                     list.Add(data5);
                 }
             }
@@ -78,6 +109,29 @@ namespace iPE.Controllers
                     foreach (var item in game2.result.list)
                     {
                         Data5 data5 = ToData5(item);
+                        data5.status = 0;
+                        foreach (TB_Collection collection in dbCol.TB_Collection)
+                        {
+                            if (collection.u_id == uid)
+                            {
+                                if (collection.teamname == data5.team1)
+                                {
+                                    if (data5.status != 0)
+                                    {
+                                        data5.status = 3; break;
+                                    }
+                                    data5.status = 1;
+                                }
+                                else if (collection.teamname == data5.team2)
+                                {
+                                    if (data5.status != 0)
+                                    {
+                                        data5.status = 3; break;
+                                    }
+                                    data5.status = 2;
+                                }
+                            }
+                        }
                         list.Add(data5);
                     }
 
@@ -110,12 +164,35 @@ namespace iPE.Controllers
                         foreach (var item in game3.result.list)
                         {
                             Data5 data5 = ToData52(item);
+                            data5.status = 0;
+                            foreach (TB_Collection collection in dbCol.TB_Collection)
+                            {
+                                if (collection.u_id == uid)
+                                {
+                                    if (collection.teamname == data5.team1)
+                                    {
+                                        if (data5.status != 0)
+                                        {
+                                            data5.status = 3; break;
+                                        }
+                                        data5.status = 1;
+                                    }
+                                    else if (collection.teamname == data5.team2)
+                                    {
+                                        if (data5.status != 0)
+                                        {
+                                            data5.status = 3; break;
+                                        }
+                                        data5.status = 2;
+                                    }
+                                }
+                            }
                             list.Add(data5);
                         }
                     }
                     else
                     {
-                        return Content("<script>alert('没有查到该球队或联赛');history.go(-1);</script>");
+                        return Content("<script>alert('No data for search!');history.go(-1);</script>");
                     }
                     //解析3
 
@@ -127,10 +204,24 @@ namespace iPE.Controllers
         [HttpPost]
         public ActionResult Index(string name)
         {
+            int uid = 0;
+            UserLoginModel user = (Session["UserMessage"] as UserLoginModel);
+            if (user != null)
+            {
+                uid = user.id;
+            }
+
             name = Request.Form["search_name"];
             if (name == null)
             {
-                return Content("<script>alert('请输入内容');</script>");
+                if (Request.Form["team"] == null)
+                {
+                    return Content("<script>alert('Please input a team name!');</script>");
+                }
+                else
+                {
+                    return mark();
+                }
             }
             string T_name = name;
 
@@ -158,6 +249,29 @@ namespace iPE.Controllers
                 foreach (var item in game1.result.views.saicheng1)
                 {
                     Data5 data5 = ToData5(item);
+                    data5.status = 0;
+                    foreach (TB_Collection collection in dbCol.TB_Collection)
+                    {
+                        if (collection.u_id == uid)
+                        {
+                            if (collection.teamname == data5.team1)
+                            {
+                                if (data5.status != 0)
+                                {
+                                    data5.status = 3; break;
+                                }
+                                data5.status = 1;
+                            }
+                            else if (collection.teamname == data5.team2)
+                            {
+                                if (data5.status != 0)
+                                {
+                                    data5.status = 3; break;
+                                }
+                                data5.status = 2;
+                            }
+                        }
+                    }
                     list.Add(data5);
                 }
             }
@@ -187,6 +301,29 @@ namespace iPE.Controllers
                     foreach (var item in game2.result.list)
                     {
                         Data5 data5 = ToData5(item);
+                        data5.status = 0;
+                        foreach (TB_Collection collection in dbCol.TB_Collection)
+                        {
+                            if (collection.u_id == uid)
+                            {
+                                if (collection.teamname == data5.team1)
+                                {
+                                    if(data5.status != 0)
+                                    {
+                                        data5.status = 3;break;
+                                    }
+                                    data5.status = 1;
+                                }
+                                else if (collection.teamname == data5.team2)
+                                {
+                                    if (data5.status != 0)
+                                    {
+                                        data5.status = 3; break;
+                                    }
+                                    data5.status = 2;
+                                }
+                            }
+                        }
                         list.Add(data5);
                     }
 
@@ -219,18 +356,69 @@ namespace iPE.Controllers
                         foreach (var item in game3.result.list)
                         {
                             Data5 data5 = ToData52(item);
+                            data5.status = 0;
+                            foreach (TB_Collection collection in dbCol.TB_Collection)
+                            {
+                                if (collection.u_id == uid)
+                                {
+                                    if (collection.teamname == data5.team1)
+                                    {
+                                        if (data5.status != 0)
+                                        {
+                                            data5.status = 3; break;
+                                        }
+                                        data5.status = 1;
+                                    }
+                                    else if (collection.teamname == data5.team2)
+                                    {
+                                        if (data5.status != 0)
+                                        {
+                                            data5.status = 3; break;
+                                        }
+                                        data5.status = 2;
+                                    }
+                                }
+                            }
                             list.Add(data5);
                         }
                     }
                     else
                     {
-                        return Content("<script>alert('没有查到该球队或联赛');history.go(-1);</script>");
+                        return Content("<script>alert('No Data for search!');history.go(-1);</script>");
                     }
                     //解析3
 
                 }
             }
             return View(list);
+        }
+       
+        public ActionResult mark()
+        {
+            UserLoginModel user = (Session["UserMessage"] as UserLoginModel);
+            if (user == null)
+            {
+                return Content("<script language='javascript'>alert('Please Login First!');top.location='/LoginAndRegister/Index';</script>");
+            }
+            int id = user.id;
+            string team = Request.Form["team"];
+            TB_Collection collection = new TB_Collection();
+            collection.u_id = id;
+            collection.teamname = team;
+            collection.type = 0;
+            if(ModelState.IsValid)
+            {
+                if (dbCol.TB_Collection.Find(id, team, 0) != null) {
+                    string sql = "delete from collection where u_id = " + id + " and teamname = '" + team + "'";
+                    dbCol.Database.ExecuteSqlCommand(sql);
+                    dbCol.SaveChanges();
+                    return Content("<script language='javascript'>alert('Unmark successfully!');history.go(-1);</script>");
+                }
+                dbCol.TB_Collection.Add(collection);
+                dbCol.SaveChanges();
+                return Content("<script language='javascript'>alert('Mark successfully!');history.go(-1);</script>");
+            }
+            return View();
         }
 
         protected override void Dispose(bool disposing)

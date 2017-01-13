@@ -39,7 +39,7 @@ namespace iPE.Models {
         [Required]
         [Display(Name = "总票数")]
         public int max { get; set; }
-        [Required]
+        
         [Display(Name = "比赛描述")]
         public string description { get; set; }
         [Required]
