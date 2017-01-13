@@ -30,7 +30,5 @@ namespace iPE.Models
 
         [StringLength(256)]
         public string description { get; set; }
-
-        public DateTime time { get; set; }
     }
 }

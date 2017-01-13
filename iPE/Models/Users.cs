@@ -13,8 +13,8 @@ namespace iPE.Models
         {
         }
 
-        static public int NORMAL_USER = 1;
-        static public int MANAGER_USER = 2;
+        static int NORMAL_USER = 1;
+        static int MANAGER_USER = 2;
 
         public virtual DbSet<TB_User> TB_User { get; set; }
 
@@ -46,7 +46,5 @@ namespace iPE.Models
                 .IsFixedLength()
                 .IsUnicode(false);
         }
-
-        public System.Data.Entity.DbSet<iPE.Models.UserLoginModel> UserLoginModels { get; set; }
     }
 }
