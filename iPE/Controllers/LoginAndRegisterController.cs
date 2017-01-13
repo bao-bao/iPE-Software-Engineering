@@ -13,6 +13,7 @@ namespace iPE.Controllers
     public class LoginAndRegisterController : Controller
     {
         private Users db = new Users();
+        private Collections dbCol = new Collections();
         private UserLoginModel userMessage = new UserLoginModel();
 
         // GET: UserLoginModels
@@ -45,6 +46,10 @@ namespace iPE.Controllers
                                 userMessage.authority = myUser.authority;
 
                                 Session["UserMessage"] = userMessage;
+                                if(searchCollect(myUser.u_id))
+                                {
+                                    return Content("<script>alert('Marked team has new match!');top.location = '/HomePage/homepage#favorite';</script>");
+                                }
                                 return RedirectToAction("Index", "Home");                 // !!!!!!!!!!!!!!!!!!!!!!!!登陆成功跳转页面
                             }
                             else
@@ -83,6 +88,18 @@ namespace iPE.Controllers
             }
             return View();
         }
+
+        public bool searchCollect(int id)
+        {
+            foreach(TB_Collection collection in dbCol.TB_Collection)
+            {
+                if(collection.u_id == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        } 
 
         protected override void Dispose(bool disposing)
         {

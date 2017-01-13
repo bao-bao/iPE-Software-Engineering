@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace iPE.Models
 {
@@ -16,6 +17,7 @@ namespace iPE.Models
 
     public class Data5
     {
+        [Key]
         public string time { get; set; }
         public string team1 { get; set; }
         public string team2 { get; set; }

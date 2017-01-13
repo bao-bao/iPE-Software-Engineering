@@ -8,18 +8,23 @@ using System.Web;
 using System.Web.Mvc;
 using iPE.Models;
 
-namespace iPE.Controllers {
-    public class TicketController : Controller {
+namespace iPE.Controllers
+{
+
+
+    public class TicketController : Controller
+    {
         private Tickets dbTicket = new Tickets();
         private Buys dbBuys = new Buys();
 
         // GET: Ticket
-        public ActionResult Index() {
+        public ActionResult Index()
+        {
             List<TicketInfo> list = new List<TicketInfo>();
             string sql = "select * "
                         + "from ticket";
             List<TB_Ticket> list_TB_Ticket = new List<TB_Ticket>();
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 list_TB_Ticket = dbTicket.Database.SqlQuery<TB_Ticket>(sql).ToList();
                 foreach (var a_TB_Ticket in list_TB_Ticket)
@@ -44,12 +49,14 @@ namespace iPE.Controllers {
         }
 
         // GET: Ticket/Details/5
-        public ActionResult Details(int? id) {
+        public ActionResult Details(int? id)
+        {
             TB_Ticket ticketInfo;
-            if (id == null) {
+            if (id == null)
+            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 ticketInfo = dbTicket.TB_Tickets.Find(id);
                 if (ticketInfo == null)
@@ -62,7 +69,8 @@ namespace iPE.Controllers {
         }
 
         // GET: Ticket/Create
-        public ActionResult Create(int? id) {
+        public ActionResult Create(int? id)
+        {
             ViewData["Matchid"] = id;
             return View();
         }
@@ -71,21 +79,25 @@ namespace iPE.Controllers {
         // 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        public ActionResult Create([Bind(Include = "name,price,max,description,time")] TicketCreateModel ticketCreateModel) {
+        public ActionResult Create([Bind(Include = "name,price,max,description,time")] TicketCreateModel ticketCreateModel)
+        {
             UserLoginModel user = (Session["UserMessage"] as UserLoginModel);
             if (user == null)
             {
                 return Content("<script language='javascript'>alert('Please Login First!');top.location='/LoginAndRegister/Index';</script>");
             }
             var new_TB_Ticket = new TB_Ticket();
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 new_TB_Ticket.u_id = user.id;
                 new_TB_Ticket.m_id = int.Parse(Request.Form["m_id"]);
                 new_TB_Ticket.name = ticketCreateModel.name;
-                if (ticketCreateModel.price == 0) {
+                if (ticketCreateModel.price == 0)
+                {
                     new_TB_Ticket.type = 0;
                 }
-                if (ticketCreateModel.price > 0) {
+                if (ticketCreateModel.price > 0)
+                {
                     new_TB_Ticket.type = 1;
                 }
                 new_TB_Ticket.max = ticketCreateModel.max;
@@ -102,13 +114,15 @@ namespace iPE.Controllers {
         }
 
         // GET: Ticket/Edit/5
-        public ActionResult Edit(int? id) {
-            if (id == null) {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TB_Ticket tB_Ticket = dbTicket.TB_Tickets.Find(id);
-            if (tB_Ticket == null) {
-                return HttpNotFound();
+        public ActionResult Edit(int? id)
+        {
+            UserLoginModel user = (Session["UserMessage"] as UserLoginModel);
+            int uid = user.id;
+
+            TB_Ticket tB_Ticket = (from a in dbTicket.TB_Tickets where a.u_id == uid select a).ToList().FirstOrDefault();
+            if (tB_Ticket == null)
+            {
+                return Content("<script>alert('You have NO ticket released!');history.go(-1);</script>");
             }
             var ticketEditModel = new TicketEditModel();
             ticketEditModel.id = tB_Ticket.t_id;
@@ -123,8 +137,10 @@ namespace iPE.Controllers {
         // 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "id,name,max,description,time")] TicketEditModel ticketEditModel) {
-            if (ModelState.IsValid) {
+        public ActionResult Edit([Bind(Include = "id,name,max,description,time")] TicketEditModel ticketEditModel)
+        {
+            if (ModelState.IsValid)
+            {
                 //UserLoginModel userLoginModel = Session["UserMessage"] as UserLoginModel;
                 //if (userLoginModel == null) {
                 //    return RedirectToAction("Index", "LoginAndRegister");
@@ -133,14 +149,18 @@ namespace iPE.Controllers {
                 //    return Content("<script>alert('不好意思，您没有权限');</script>");
                 //}
                 TB_Ticket tB_Ticket = dbTicket.TB_Tickets.Find(ticketEditModel.id);
-                if (tB_Ticket == null) {
+                if (tB_Ticket == null)
+                {
                     return HttpNotFound();
                 }
-                if(ticketEditModel.name != null) {
+                if (ticketEditModel.name != null)
+                {
                     tB_Ticket.name = ticketEditModel.name;
                 }
-                if(ticketEditModel.max != null) {
-                    if(tB_Ticket.sell > ticketEditModel.max) {
+                if (ticketEditModel.max != null)
+                {
+                    if (tB_Ticket.sell > ticketEditModel.max)
+                    {
                         return Content(
                             "<script>alert('售出的票数已大于设定的票数\n\n提示：已卖出 "
                             + tB_Ticket.sell
@@ -148,16 +168,18 @@ namespace iPE.Controllers {
                     }
                     tB_Ticket.max = (int)ticketEditModel.max;
                 }
-                if (ticketEditModel.description != null) {
+                if (ticketEditModel.description != null)
+                {
                     tB_Ticket.description = ticketEditModel.description;
                 }
-                if(ticketEditModel.time != null) {
+                if (ticketEditModel.time != null)
+                {
                     tB_Ticket.time = ticketEditModel.time;
                 }
 
                 dbTicket.Entry(tB_Ticket).State = EntityState.Modified;
                 dbTicket.SaveChanges();
-                return RedirectToAction("Index");
+                return Content("<script>alert('Edit succseefully!');top.location='/Ticket/Index';</script>"); ;
             }
             return View();
         }
@@ -166,7 +188,7 @@ namespace iPE.Controllers {
         {
             TB_Ticket ticket = new TB_Ticket();
             ticket = dbTicket.TB_Tickets.Find(id);
-            if(ticket != null)
+            if (ticket != null)
             {
                 return View(ticket);
             }
@@ -174,8 +196,9 @@ namespace iPE.Controllers {
         }
 
         [HttpPost, ActionName("Buy")]
-        public ActionResult Buy(int id) {
-            int number = Convert.ToInt32(Request.Form["number"]);
+        public ActionResult Buy(int id)
+        {
+            int number = Convert.ToInt32(Request.Form["Number"]);
             TB_Ticket ticket = dbTicket.TB_Tickets.Find(id);
             UserLoginModel user = (Session["USerMessage"] as UserLoginModel);
             if (user == null)
@@ -183,17 +206,34 @@ namespace iPE.Controllers {
                 return Content("<script language='javascript'>alert('Please Login First!');top.location='/LoginAndRegister/Index';</script>");
             }
 
-            int userID = user.id;
-            TB_Buy new_TB_Buy = new TB_Buy();
-            new_TB_Buy.t_id = ticket.t_id;
-            new_TB_Buy.u_id = user.id;
-            new_TB_Buy.number = number;
-            new_TB_Buy.time = DateTime.Now;
-            new_TB_Buy.price = ticket.price * number;
-            dbBuys.TB_Buy.Add(new_TB_Buy);
-            dbBuys.SaveChanges();
+            if (ticket.max - ticket.sell > number)
+            {
+                int userID = user.id;
+                TB_Buy new_TB_Buy = new TB_Buy();
+                new_TB_Buy.t_id = ticket.t_id;
+                new_TB_Buy.u_id = user.id;
+                new_TB_Buy.number = number;
+                new_TB_Buy.time = DateTime.Now;
+                new_TB_Buy.price = ticket.price * number;
+                dbBuys.TB_Buy.Add(new_TB_Buy);
+                dbBuys.SaveChanges();
+                ticket.sell += number;
+                dbTicket.Entry(ticket).State = EntityState.Modified;
+                dbTicket.SaveChanges();
+            }
+            else
+            {
+                return Content("<script language='javascript'>alert('Ticket not enough!');history.go(-1);</script>");
 
-            return RedirectToAction("homepage", "HomePage");
+            }
+
+            return Content("<script language='javascript'>alert('you get this tickets!');top.location='/HomePage/homepage#services';</script>");
+        }
+
+        public ActionResult detail(int? id)
+        {
+            BuyDetail detail = (Session[id.ToString()] as BuyDetail);
+            return View(detail);
         }
 
         //public ActionResult Error() {

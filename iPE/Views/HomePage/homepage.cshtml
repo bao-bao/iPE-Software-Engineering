@@ -66,6 +66,7 @@
                                 <li><a href="/Ticket/Index" data-hover="Tickets" class="scroll">Tickets</a></li>
                                 <li><a href="/Match/Matches" data-hover="MatchEnroll" class="scroll">MatchEnroll</a></li>
                                 <li><a data-hover="Myhome" href="/Homepage/homepage" class="scroll">Myhome</a></li>
+                                <li><a data-hover="SignOut" href="/LoginAndRegister/Index" class="scroll">SignOut</a></li>
                             </ul>
                         </div><!-- /.navbar-collapse -->
                     </div><!-- /.container-fluid -->
@@ -114,6 +115,8 @@
                                 <h4>Game Enroll</h4>
                                 <p>The game you are going to take part in</p>
                                 <a href="#news">check</a>
+                                <span>&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;</span>
+                                <a href="/Match/Edit">edit my match</a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -125,6 +128,8 @@
                                 <h4>Tickets</h4>
                                 <p>The valid tickets you bought on our station</p>
                                 <a href="#services">check</a>
+                                <span>&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;</span>
+                                <a href="/Ticket/Edit">edit my ticket</a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -136,7 +141,7 @@
                                 <h4>Launch</h4>
                                 <p>You have the privilege to launch matches</p>
                                 <form id="abc" method="post">
-                                    <input hidden="hidden" name="Apply" value="true"/>
+                                    <input hidden="hidden" name="Apply" value="true" />
                                     <a href="/Match/CreateMatch">launch</a>
                                     <span>&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;</span>
                                     <a href="#" onclick="document.getElementById('abc').submit();">apply for manager</a>
@@ -154,7 +159,7 @@
         <div class="promotions" id="favorite">
             <div class="container">
                 <h2 class="tittle">My Favorites</h2>
-                @{  
+                @{
                     if (Model.enrollMatches == null)
                     {
                         <div class="news-grids" style="text-align:center">
@@ -164,13 +169,37 @@
                     }
                     else
                     {
-                        <ul>
-                            @foreach (var team in Model.collection)
-                            {
-                            <li>@team.teamname</li>
+                        <div class="list-of-match">
+                            @{
+                                int i = 0;
+                                foreach (var item in Model.data)
+                                {
+                                    <div class="list-element">
+                                        <form id="@i" method="post">
+                                            <div class="col-md-2 match-list-style">
+                                                @Html.DisplayFor(modelItem => item.team1)
+                                            </div>
+                                        </form>
+                                        @{
+                                            i++;
+                                        }
+                                        <form id="@i" method="post">
+                                            <div class="col-md-2 match-list-style">
+                                                @Html.DisplayFor(modelItem => item.team2)
+                                            </div>
+                                        </form>
+                                        @{
+                                            i++;
+                                        }
+                                        <!--<span class="col-md-2 collect">collect</span>-->
+                                        <div class="col-md-2 match-list-style">@Html.DisplayFor(modelItem => item.time)</div>
+                                        <div class="col-md-2 match-list-style">@Html.DisplayFor(modelItem => item.score)</div>
+                                        <a class="col-md-4 watch" href="@item.src">Go To Watch&nbsp;>>></a>
+                                    </div>
+                                            }
                             }
-                        </ul>
-                    }
+                        </div>
+                                            }
 
                 }
             </div>
@@ -219,7 +248,7 @@
                 <h3 class="tittle">Tickets</h3>
                 <div class="news-grids">
                     @{
-
+                        
                         if (Model.boughtTickets == null)
                         {
                             <h4>you have NOT bought any ticket!</h4>
@@ -227,18 +256,21 @@
                         }
                         else
                         {
+                            int i = 0;
                             foreach (var ticket in Model.boughtTickets)
                             {
+                                Session[i.ToString()] = ticket;
                                 <div class="col-md-3 featured-grid">
                                     <div class="featured-grd">
                                         <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                                         <h5>@ticket.name</h5>
                                         <p>@ticket.time</p>
                                         <div class="more m2">
-                                            <a href="/Ticket/Buy?id=@ticket.t_id" class="btn effect6">Learn More</a>
+                                            <a href="/Ticket/Detail?id=@i" class="btn effect6">Learn More</a>
                                         </div>
                                     </div>
                                 </div>
+                                i++;
                             }
                         }
                     }

@@ -18,9 +18,10 @@ namespace iPE.Models
 
         public List<MatchViewModels> enrollMatches { get; set; }
 
-        public List<TB_Ticket> boughtTickets { get; set; } 
+        public List<BuyDetail> boughtTickets { get; set; } 
 
         public List<TB_Collection> collection { get; set; }
         
+        public List<Data5> data { get; set; }
     }
 }

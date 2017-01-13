@@ -191,6 +191,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BuyViewModel.cs" />
     <Compile Include="Models\Collections.cs" />
     <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Models\HomePageViewModel.cs" />
@@ -328,6 +329,7 @@
     <Content Include="Views\Ticket\Edit.cshtml" />
     <Content Include="Views\Ticket\Index.cshtml" />
     <Content Include="Views\Ticket\Buy.cshtml" />
+    <Content Include="Views\Ticket\detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

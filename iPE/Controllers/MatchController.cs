@@ -132,22 +132,17 @@ namespace iPE.Controllers
         }
 
         // GET: Match/Edit
-        public ActionResult Edit(int? id)
+        public ActionResult Edit()
         {
-            TB_Match tB_Match;
-            if (id == null)
+            UserLoginModel user = (Session["UserMessage"] as UserLoginModel);
+            int uid = user.id;
+
+            TB_Match tB_Match = (from a in dbMat.TB_Match where a.u_id == uid select a).ToList().FirstOrDefault();
+            if (tB_Match == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return Content("<script>alert('You have NO match released!');history.go(-1);</script>");
             }
-            if(ModelState.IsValid)
-            {
-                tB_Match = dbMat.TB_Match.Find(id);
-                if(tB_Match != null)
-                {
-                    return View(tB_Match);
-                }
-            }
-            return HttpNotFound();
+            return View(tB_Match);
         }
 
         // POST: Match/Edit
@@ -155,15 +150,15 @@ namespace iPE.Controllers
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit()
+        public ActionResult Edit(int? id)
         {
-            TB_Match tB_Match = new TB_Match();
+            TB_Match tB_Match = dbMat.TB_Match.Find(int.Parse(Request.Form["id"]));
 
             tB_Match.name = Request.Form["Name"];
             tB_Match.sponsor = Request.Form["Sponsor"];
             tB_Match.s_time = DateTime.Parse(Request.Form["StartTime"]);
             tB_Match.e_time = DateTime.Parse(Request.Form["EndTime"]);
-            tB_Match.c_time = DateTime.Parse(Request.Form["EnrollTime"]);
+            tB_Match.c_time = DateTime.Parse(Request.Form["EnrollEnd"]);
             tB_Match.m_num = int.Parse(Request.Form["EnrollNumber"]);
             tB_Match.w_num = int.Parse(Request.Form["VisitNumber"]);
             tB_Match.location = Request.Form["Location"];
@@ -175,7 +170,7 @@ namespace iPE.Controllers
                 {
                     dbMat.Entry(tB_Match).State = EntityState.Modified;
                     dbMat.SaveChanges();
-                    return RedirectToAction("Matches");
+                    return Content("<script>alert('Edit succseefully!');top.location='/Match/Matches';</script>");
                 }
                 return View(tB_Match);
             }
